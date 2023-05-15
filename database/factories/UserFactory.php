@@ -26,6 +26,8 @@ class UserFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
+            'matric_id' => $this->faker->unique()->numberBetween(1, 10),
+            'phone_num' => $this->faker->unique(true)->numberBetween(1, 10),
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
