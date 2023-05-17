@@ -9,7 +9,10 @@ class ProductController extends Controller
 {
     public function index()
     {
-        return view('products.index');
+        $products = "test";
+        return view('products.viewInventory', [
+            'products' => $products,
+        ]);
     }
 
     /**
