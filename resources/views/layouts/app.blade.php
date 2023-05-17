@@ -20,7 +20,7 @@
     <body class="font-sans antialiased">
         <x-banner />
 
-        <div class="min-h-screen bg-gray-100">
+        <div class="min-h-screen bg-gray-200">
             @livewire('navigation-menu')
 
             <!-- Page Heading -->
@@ -32,11 +32,21 @@
                 </header>
             @endif
 
+
+
             <!-- Page Content -->
             <main>
-                {{ $slot }}
+                <div class="flex">
+                @include('sidebar')
+                <div class="px-8 py-4 w-screen">
+                   {{ $slot }} 
+                </div>
+                
+                </div>
             </main>
         </div>
+
+        <footer class="bg-gray-700 flex justify-center p-6 text-white">	PMMS &copy 2023</footer>
 
         @stack('modals')
 
