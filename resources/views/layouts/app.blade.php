@@ -38,7 +38,7 @@
             <main>
                 <div class="flex">
                 @include('sidebar')
-                <div class="px-8 py-4 w-screen">
+                <div class="px-8 py-4 w-full">
                    {{ $slot }} 
                 </div>
                 
