@@ -12,7 +12,7 @@ class Payment extends Model
 
     protected $guarded = [];
 
-    public function carts(): HasMany
+    public function carts()
     {
         return $this->hasMany(Cart::class);
     }

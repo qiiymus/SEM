@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 
 Route::get('/', function () {
@@ -18,3 +20,5 @@ Route::middleware([
 });
 
 Route::get('/products', [ProductController::class, 'index'])->name('product');
+
+Route::get('/payment', [CartController::class, 'index'])->name('cart');
