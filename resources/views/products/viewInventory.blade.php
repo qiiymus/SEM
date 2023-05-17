@@ -4,7 +4,7 @@
         <div class="flex justify-end w-full mb-5 relative right-0">
             @include('components.searchbar')
             <a href="{{ route('addInventory') }}"
-                class="px-2 py-1 border border-transparent rounded-lg hover:text-gray-600"
+                class="p-2 mx-2 border border-transparent rounded-xl hover:text-gray-600"
                 style="background-color: #00AEA6;">
                 Add Product
             </a>
@@ -13,25 +13,25 @@
             <table class="table-auto w-full text-center">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>NAME</th>
-                        <th>COST</th>
-                        <th>PRICE</th>
-                        <th>QUANTITY</th>
-                        <th>CATEGORY</th>
-                        <th>BRAND</th>
+                        <th class="py-2">ID</th>
+                        <th class="py-2">NAME</th>
+                        <th class="py-2">COST</th>
+                        <th class="py-2">PRICE</th>
+                        <th class="py-2">QUANTITY</th>
+                        <th class="py-2">CATEGORY</th>
+                        <th class="py-2">BRAND</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($products as $item)
                         <tr class="border border-slate-400 rounded-xl">
-                            <td>{{ $item->id }}</td>
-                            <td>{{ $item->product_name }}</td>
-                            <td>{{ number_format($item->product_cost, 2) }}</td>
-                            <td>{{ number_format($item->product_price, 2) }}</td>
-                            <td>{{ $item->product_quantity }}</td>
-                            <td>{{ $item->product_category }}</td>
-                            <td>{{ $item->product_brand }}</td>
+                            <td class="py-2">{{ $item->id }}</td>
+                            <td class="py-2">{{ $item->product_name }}</td>
+                            <td class="py-2">{{ number_format($item->product_cost, 2) }}</td>
+                            <td class="py-2">{{ number_format($item->product_price, 2) }}</td>
+                            <td class="py-2">{{ $item->product_quantity }}</td>
+                            <td class="py-2">{{ $item->product_category }}</td>
+                            <td class="py-2">{{ $item->product_brand }}</td>
                     @endforeach
                 </tbody>
             </table>

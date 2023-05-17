@@ -10,35 +10,39 @@
                 <table class="rounded-xl px-4 w-3/6">
                     <tbody >
                         <tr>
-                            <td class="px-4 py-3"><label>Name</label></td>
-                            <td class="px-4 py-3"><input type="text" name="name" class="form-control rounded-xl w-full bg-gray-200 border border-slate-400" required></td>
+                            <td class="px-4 py-2"><label>ID</label></td>
+                            <td class="px-4 py-2"><input type="text" name="id" class="form-control rounded-xl w-2/5 bg-gray-200 border border-slate-400" required></td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-3"><label>Cost</label></td>
-                            <td class="px-4 py-3"><input type="number" name="cost" class="form-control rounded-xl bg-gray-200 border border-slate-400" step=".01" required></td>
+                            <td class="px-4 py-2"><label>Name</label></td>
+                            <td class="px-4 py-2"><input type="text" name="name" class="form-control rounded-xl w-full bg-gray-200 border border-slate-400" required></td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-3"><label>Price</label></td>
-                            <td class="px-4 py-3"><input type="number" name="price" class="form-control rounded-xl bg-gray-200 border border-slate-400" step=".01" required></td>
+                            <td class="px-4 py-2"><label>Cost</label></td>
+                            <td class="px-4 py-2"><input type="number" name="cost" class="form-control rounded-xl bg-gray-200 border border-slate-400" step=".01" required></td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-3"><label>Quantity</label></td>
-                            <td class="px-4 py-3"><input type="text" name="quantity" class="form-control rounded-xl w-2/6 bg-gray-200 border border-slate-400" required></td>
+                            <td class="px-4 py-2"><label>Price</label></td>
+                            <td class="px-4 py-2"><input type="number" name="price" class="form-control rounded-xl bg-gray-200 border border-slate-400" step=".01" required></td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-3"><label>Category</label></td>
-                            <td class="px-4 py-3"><select name="category" required class="rounded-xl w-2/5 bg-gray-200 border border-slate-400">
+                            <td class="px-4 py-2"><label>Quantity</label></td>
+                            <td class="px-4 py-2"><input type="text" name="quantity" class="form-control rounded-xl w-2/6 bg-gray-200 border border-slate-400" required></td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2"><label>Category</label></td>
+                            <td class="px-4 py-2"><select name="category" required class="rounded-xl w-2/5 bg-gray-200 border border-slate-400">
                                 <option value="food">Food</option>
                                 <option value="stationary">Stationary</option>
                             </select></td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-3"><label>Brand</label></td>
-                            <td class="px-4 py-3"><input type="text" name="brand" class="form-control rounded-xl w-full bg-gray-200 border border-slate-400" required></td>
+                            <td class="px-4 py-2"><label>Brand</label></td>
+                            <td class="px-4 py-2"><input type="text" name="brand" class="form-control rounded-xl w-full bg-gray-200 border border-slate-400" required></td>
                         </tr>
                     </tbody>
                 </table>
-                <div class="flex justify-end px-4 py-4">
+                <div class="flex justify-end px-4 py-2">
                     <div class="px-4">
                         <input type="reset" value="Reset" class="btn border border-slate-400 bg-gray-400 px-3 py-2 rounded-xl hover:bg-gray-300">
                     </div>
