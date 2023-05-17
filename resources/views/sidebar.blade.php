@@ -1,4 +1,4 @@
-<nav class="relative h-screen w-48 px-4 pt-8 pb-4 fixed left-0 top-0" style="background-color: #0C1446;">
+<nav class="relative h-screen w-48 px-4 pt-8 pb-4 left-0 top-0" style="background-color: #0C1446;">
     <ul class="space-y-3">
         <a href="{{ route('dashboard') }}">
             <x-nav-item>
