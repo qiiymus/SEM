@@ -12,13 +12,27 @@
                 Cart
             </div>
             <div>
-                <form action="#" method="post">
+                <form action="{{ route('cart.store') }}" method="post">
                     @csrf
-                    <input type="text" name="test" id="test" placeholder="Enter Barcode..."
+                    <input type="text" name="product_id" id="product_id" placeholder="Enter Barcode..."
                         class="text-center rounded-xl border-x-0 border-t-0">
                     <input type="submit" value="Add Item" class="ml-6 p-2 rounded-xl text-white bg-ump-green">
                 </form>
             </div>
+
+            {{-- Message --}}
+            @if (session('success'))
+                <div class="bg-green-200 text-green-800 px-4 py-2 mb-4 rounded-md">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="bg-red-200 text-red-800 px-4 py-2 mb-4 rounded-md">
+                    {{ session('error') }}
+                </div>
+            @endif
+
             {{-- Table --}}
             <div class="overflow-hidden mt-5">
                 <div class="max-h-72 mx-2 overflow-y-auto">
@@ -35,21 +49,23 @@
                         <tbody>
                             @foreach ($carts as $cart)
                                 <tr class="border-t border-slate-400 bg-gray-100">
-                                    <td class="py-2 px-2">{{ $cart->id }}</td>
+                                    <td class="py-2 px-2">{{ $cart->product_id }}</td>
                                     <td class="py-2 px-2">{{ $cart->product_name }}</td>
                                     <td class="py-2 px-2">
                                         <span>RM&nbsp;&nbsp;</span>
-                                        <span class="font-bold">{{ $cart->product_price }}</span>
+                                        <span class="font-bold">{{ number_format($cart->product_price, 2) }}</span>
                                     </td>
                                     <td class="py-2 px-2 flex justify-between" style="max-width: 70%">
-                                        <a href="#">
+                                        {{-- Decrement Quantity --}}
+                                        <a href="{{ route('cart.minus', $cart->id) }}">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
                                                 viewBox="0 0 24 24" stroke="lightgreen" stroke-width="2">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4" />
                                             </svg>
                                         </a>
                                         <span>{{ $cart->quantity }}</span>
-                                        <a href="#">
+                                        {{-- Increment Quantity --}}
+                                        <a href="{{ route('cart.plus', $cart->id) }}">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
                                                 viewBox="0 0 24 24" stroke="lightgreen" stroke-width="2">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -58,7 +74,7 @@
                                         </a>
                                     </td>
                                     <td class="py-2 px-2">
-                                        <a href="#">
+                                        <a href="{{ route('cart.destroy', $cart->id) }}">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
                                                 viewBox="0 0 24 24" stroke="red" stroke-width="2">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -83,7 +99,7 @@
                 <div>
                     <span class="font-bold">Total Price:&nbsp;&nbsp;</span>
                     <span class="font-light">RM&nbsp;&nbsp;</span>
-                    <span class="font-bold">{{ $totalPrice }}</span>
+                    <span class="font-bold">{{ number_format($totalPrice, 2) }}</span>
                 </div>
                 <div class="ml-auto mr-10">
                     <button class="w-20 px-4 py-2 bg-gray-200 rounded-xl font-bold" onclick="goBack()">Cancel</button>

@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CartController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 
@@ -21,4 +20,9 @@ Route::middleware([
 
 Route::get('/products', [ProductController::class, 'index'])->name('product');
 
-Route::get('/payment', [CartController::class, 'index'])->name('cart');
+// Payment
+Route::get('/cart', [PaymentController::class, 'index'])->name('cart');
+Route::post('/cart', [PaymentController::class, 'storeCart'])->name('cart.store');
+Route::get('/cart/{id}', [PaymentController::class, 'destroyCart'])->name('cart.destroy');
+Route::get('/cart/{id}/increment', [PaymentController::class, 'incrementQuantity'])->name('cart.plus');
+Route::get('/cart/{id}/decrement', [PaymentController::class, 'decrementQuantity'])->name('cart.minus');
