@@ -13,7 +13,7 @@
             <table class="table-auto w-full text-center">
                 <thead>
                     <tr>
-                        <th class="py-2">ID</th>
+                        <th class="py-2">BARCODE</th>
                         <th class="py-2">NAME</th>
                         <th class="py-2">COST</th>
                         <th class="py-2">PRICE</th>

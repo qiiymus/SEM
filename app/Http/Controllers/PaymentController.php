@@ -22,7 +22,7 @@ class PaymentController extends Controller
         }
 
         $carts = Cart::join('products', 'products.id', '=', 'carts.product_id')
-            ->select('carts.id', 'carts.product_id', 'products.product_name', 'products.product_price', 'carts.quantity', 'carts.created_at', 'carts.payment_id')
+            ->select('carts.id', 'products.product_id', 'products.product_name', 'products.product_price', 'carts.quantity', 'carts.created_at', 'carts.payment_id')
             ->where('carts.payment_id', '=', null)
             ->where('carts.user_id', '=', auth()->user()->id)
             ->orderBy('carts.created_at', 'desc')
@@ -72,7 +72,7 @@ class PaymentController extends Controller
 
         $payment = Cart::join('products', 'products.id', '=', 'carts.product_id')
             ->join('payments', 'payments.id', '=', 'carts.payment_id')
-            ->select('carts.product_id', 'products.product_name', 'products.product_price', 'carts.quantity', 'payments.id', 'carts.created_at', "payments.total_price", "payments.payment_method", "payments.cash_amount")
+            ->select('products.product_id', 'products.product_name', 'products.product_price', 'carts.quantity', 'payments.id', 'carts.created_at', "payments.total_price", "payments.payment_method", "payments.cash_amount")
             ->where('carts.payment_id', '=', $payment->id)
             ->orderBy('carts.created_at', 'desc')
             ->get();
@@ -92,18 +92,25 @@ class PaymentController extends Controller
     public function storeCart(Request $request)
     {
         try {
-            Product::findOrFail($request->product_id)->id;
+            $product = Product::where('product_id', '=', $request->product_id)->firstOrFail();
         } catch (ModelNotFoundException) {
             return redirect()->route('cart')->with('error', 'Product barcode not exist!');
         }
-
+        // dd($request, $product);
+        // dd($product->id);
         // If product already exist in cart, update quantity
-        $cartExist = Cart::where('user_id', '=', auth()->user()->id)
-            ->where('product_id', '=', $request->product_id)
-            ->where('payment_id', '=', null)
+        $cartExist = Cart::join('products', 'products.id', '=', 'carts.product_id')
+            ->select('carts.id', 'carts.product_id', 'carts.quantity', 'carts.user_id', 'carts.payment_id')
+            ->where('carts.user_id', '=', auth()->user()->id)
+            ->where('carts.product_id', '=', $product->id)
+            ->where('carts.payment_id', '=', null)
             ->first();
+        
+        // dd($cartExist);
+        
         if ($cartExist) {
             $cartExist->quantity++;
+            // dd($cartExist->quantity, $cartExist->save());
             if ($cartExist->save()) {
                 return redirect()->route('cart')->with('success', 'Product added to cart successfully!');
             } else {
@@ -113,7 +120,7 @@ class PaymentController extends Controller
 
         $cart = new Cart();
         $cart->user_id = auth()->user()->id;
-        $cart->product_id = $request->product_id;
+        $cart->product_id = $product->id;
 
         if ($request->quantity == null) {
             $cart->quantity = 1;

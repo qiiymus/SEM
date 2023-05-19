@@ -17,10 +17,10 @@ class CartFactory extends Factory
     public function definition(): array
     {
         return [
-            'product_id' => $this->faker->numberBetween(1, 5),
+            'product_id' => $this->faker->unique()->numberBetween(1, 8),
             'payment_id' => null,
             'user_id' => 1,
-            'quantity' => $this->faker->numberBetween(1, 50),
+            'quantity' => $this->faker->numberBetween(1, 10),
         ];
     }
 }

@@ -10,7 +10,11 @@ class Payment extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'total_price',
+        'payment_method',
+        'cash_amount',
+    ];
 
     public function carts()
     {

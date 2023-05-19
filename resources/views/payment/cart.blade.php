@@ -39,7 +39,7 @@
                     <table class="min-w-full table-auto">
                         <thead class="sticky top-0 bg-white">
                             <tr>
-                                <th class="text-left py-2 px-2">Item ID</th>
+                                <th class="text-left py-2 px-2">Item Barcode</th>
                                 <th class="text-left py-2 px-2">Name</th>
                                 <th class="text-left py-2 px-2">Price</th>
                                 <th class="text-left py-2 px-2">Quantity</th>
