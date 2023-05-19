@@ -154,6 +154,13 @@ class PaymentController extends Controller
         $carts = Cart::where('user_id', '=', auth()->user()->id)
             ->where('payment_id', '=', null)
             ->get();
+        
+        // Update product quantity in product table
+        $carts->each(function ($cart) {
+            $product = Product::find($cart->product_id);
+            $product->product_quantity -= $cart->quantity;
+            $product->save();
+        });
 
         $carts->each(function ($cart) use ($payment) {
             $cart->payment_id = $payment->id;
