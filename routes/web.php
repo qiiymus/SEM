@@ -20,3 +20,6 @@ Route::middleware([
 Route::get('/products', [ProductController::class, 'index'])->name('product');
 Route::get('/products/add', [ProductController::class, 'create'])->name('addInventory');
 Route::post('/products/store', [ProductController::class, 'store'])->name('storeInventory');
+Route::get('/products/edit/{id}', [ProductController::class, 'edit'])->name('editInventory');
+Route::post('/products/update/{id}', [ProductController::class, 'update'])->name('updateInventory');
+Route::post('/products/delete/{id}', [ProductController::class, 'destroy'])->name('deleteInventory');

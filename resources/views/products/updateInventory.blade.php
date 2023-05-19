@@ -1,44 +1,44 @@
 <x-app-layout>
     <div class="w-full">
-        <p class="text-xl mb-4">Add Product</p>
+        <p class="text-xl mb-4">Edit Product</p>
         <div class="flex justify-end w-full mb-5 relative right-0">
             @include('components.searchbar')
         </div>
         <div class="bg-white border border-slate-300 rounded-xl w-full p-3">
-            <form action="{{ route('storeInventory') }}" method="post">
+            <form action="{{ route('updateInventory', $product->id) }}" method="post">
                 @csrf
                 <table class="rounded-xl px-4 w-3/6">
                     <tbody >
                         <tr>
                             <td class="px-4 py-2"><label>ID</label></td>
-                            <td class="px-4 py-2"><input type="text" name="product_id" class="form-control rounded-xl w-2/5 bg-gray-200 border border-slate-400" required></td>
+                            <td class="px-4 py-2"><input type="text" name="product_id" value="{{ $product->product_id }}" class="form-control rounded-xl w-2/5 bg-gray-200 border border-slate-400" required></td>
                         </tr>
                         <tr>
                             <td class="px-4 py-2"><label>Name</label></td>
-                            <td class="px-4 py-2"><input type="text" name="name" class="form-control rounded-xl w-full bg-gray-200 border border-slate-400" required></td>
+                            <td class="px-4 py-2"><input type="text" name="name" value="{{ $product->product_name }}" class="form-control rounded-xl w-full bg-gray-200 border border-slate-400" required></td>
                         </tr>
                         <tr>
                             <td class="px-4 py-2"><label>Cost</label></td>
-                            <td class="px-4 py-2"><input type="number" name="cost" class="form-control rounded-xl bg-gray-200 border border-slate-400" step=".01" required></td>
+                            <td class="px-4 py-2"><input type="number" name="cost" value="{{ $product->product_cost }}" class="form-control rounded-xl bg-gray-200 border border-slate-400" step=".01" required></td>
                         </tr>
                         <tr>
                             <td class="px-4 py-2"><label>Price</label></td>
-                            <td class="px-4 py-2"><input type="number" name="price" class="form-control rounded-xl bg-gray-200 border border-slate-400" step=".01" required></td>
+                            <td class="px-4 py-2"><input type="number" name="price" value="{{ $product->product_price }}" class="form-control rounded-xl bg-gray-200 border border-slate-400" step=".01" required></td>
                         </tr>
                         <tr>
                             <td class="px-4 py-2"><label>Quantity</label></td>
-                            <td class="px-4 py-2"><input type="text" name="quantity" class="form-control rounded-xl w-2/6 bg-gray-200 border border-slate-400" required></td>
+                            <td class="px-4 py-2"><input type="text" name="quantity" value="{{ $product->product_quantity }}" class="form-control rounded-xl w-2/6 bg-gray-200 border border-slate-400" required></td>
                         </tr>
                         <tr>
                             <td class="px-4 py-2"><label>Category</label></td>
-                            <td class="px-4 py-2"><select name="category" required class="rounded-xl w-2/5 bg-gray-200 border border-slate-400">
+                            <td class="px-4 py-2"><select name="category" required value="{{ $product->product_category }}" class="rounded-xl w-2/5 bg-gray-200 border border-slate-400">
                                 <option value="food">Food</option>
                                 <option value="stationary">Stationary</option>
                             </select></td>
                         </tr>
                         <tr>
                             <td class="px-4 py-2"><label>Brand</label></td>
-                            <td class="px-4 py-2"><input type="text" name="brand" class="form-control rounded-xl w-full bg-gray-200 border border-slate-400" required></td>
+                            <td class="px-4 py-2"><input type="text" value="{{ $product->product_brand }}" name="brand" class="form-control rounded-xl w-full bg-gray-200 border border-slate-400" required></td>
                         </tr>
                     </tbody>
                 </table>
