@@ -78,10 +78,12 @@ class PaymentController extends Controller
             ->get();
 
         $totalPrice = $payment->last()->total_price;
+        $cashAmount = $payment->last()->cash_amount;
+        $totalChange = $cashAmount - $totalPrice;
 
-        //dd($payment, $totalPrice);
+        // dd($payment, $totalPrice);
 
-        return view('payment.change', compact('payment', 'totalPrice'));
+        return view('payment.change', compact('payment', 'totalPrice', 'totalChange', 'cashAmount'));
     }
 
     /**

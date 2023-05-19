@@ -31,3 +31,5 @@ Route::get('/cart/{id}/decrement', [PaymentController::class, 'decrementQuantity
 // Payment
 Route::get('/cart/checkout', [PaymentController::class, 'paymentIndex'])->name('payment.pay');
 Route::post('/cart/checkout', [PaymentController::class, 'storePayment'])->name('payment.store');
+// Change
+Route::get('/change/{payment}', [PaymentController::class, 'changeIndex'])->name('payment.change');
