@@ -90,11 +90,6 @@
             </div>
 
             {{-- After table --}}
-            <script>
-                function goBack() {
-                    window.history.back();
-                }
-            </script>
             <div class="mt-5 flex flex-row justify-between items-center">
                 <div>
                     <span class="font-bold">Total Price:&nbsp;&nbsp;</span>
@@ -102,10 +97,12 @@
                     <span class="font-bold">{{ number_format($totalPrice, 2) }}</span>
                 </div>
                 <div class="ml-auto mr-10">
-                    <button class="w-20 px-4 py-2 bg-gray-200 rounded-xl font-bold" onclick="goBack()">Cancel</button>
+                    <a href="{{ route('dashboard') }}">
+                        <button class="w-20 px-4 py-2 bg-gray-200 rounded-xl font-bold">Cancel</button>
+                    </a>
                 </div>
                 <div>
-                    <a href="ml-auto">
+                    <a href="#">
                         <button class="w-20 px-4 py-2 bg-ump-green text-white rounded-xl font-bold">Pay</button>
                     </a>
                 </div>

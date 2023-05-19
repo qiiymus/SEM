@@ -22,9 +22,10 @@ class PaymentController extends Controller
         }
 
         $carts = Cart::join('products', 'products.id', '=', 'carts.product_id')
-            ->join('users', 'users.id', '=', 'carts.user_id')
-            ->select('carts.id', 'carts.product_id', 'products.product_name', 'products.product_price', 'carts.quantity', 'carts.updated_at')
-            ->orderBy('carts.updated_at', 'desc')
+            ->select('carts.id', 'carts.product_id', 'products.product_name', 'products.product_price', 'carts.quantity', 'carts.created_at', 'carts.payment_id')
+            ->where('carts.payment_id', '=', null)
+            ->where('carts.user_id', '=', auth()->user()->id)
+            ->orderBy('carts.created_at', 'desc')
             ->get();
 
         $carts->each(function ($cart) {
@@ -44,14 +45,28 @@ class PaymentController extends Controller
      */
     public function storeCart(Request $request)
     {
-        $cart = new Cart();
-        $cart->user_id = auth()->user()->id;
-
         try {
-            $item = Product::findOrFail($request->product_id)->id;
-        } catch (ModelNotFoundException $e) {
+            Product::findOrFail($request->product_id)->id;
+        } catch (ModelNotFoundException) {
             return redirect()->route('cart')->with('error', 'Product barcode not exist!');
         }
+
+        // If product already exist in cart, update quantity
+        $cartExist = Cart::where('user_id', '=', auth()->user()->id)
+            ->where('product_id', '=', $request->product_id)
+            ->where('payment_id', '=', null)
+            ->first();
+        if ($cartExist) {
+            $cartExist->quantity++;
+            if ($cartExist->save()) {
+                return redirect()->route('cart')->with('success', 'Product added to cart successfully!');
+            } else {
+                return redirect()->route('cart')->with('error', 'Failed to add product to cart!');
+            }
+        }
+
+        $cart = new Cart();
+        $cart->user_id = auth()->user()->id;
         $cart->product_id = $request->product_id;
 
         if ($request->quantity == null) {
