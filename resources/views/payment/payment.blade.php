@@ -17,7 +17,7 @@
                 <span class="font-light">RM&nbsp;&nbsp;</span>
                 <span class="font-bold">{{ number_format($totalPrice, 2) }}</span>
             </div>
-            <form action="#" method="post">
+            <form action="#" method="post" class="h-full w-full">
                 @csrf
                 <input type="hidden" name="total_price" value="{{ $totalPrice }}">
                 <div class="flex flex-row mt-7 gap-x-40">
@@ -38,7 +38,7 @@
 
                     <div>
                         <div class="font-semibold">
-                            Cash Amount
+                            Paid Amount
                         </div>
                         <div class="mt-4">
                             <span class="font-light">RM&nbsp;&nbsp;</span>
@@ -47,7 +47,6 @@
                                 required value="{{ $totalPrice }}">
                         </div>
                     </div>
-
                 </div>
 
                 {{-- Go back previous page script --}}
@@ -57,18 +56,16 @@
                     }
                 </script>
                 {{-- Buttons --}}
-                <div class="flex flex-row justify-between mt-auto mb-10 place-items-end">
-                    <div class="ml-auto mr-10">
+                <div class="mt-10 mb-5 flex flex-row justify-between">
+                    <div class="ml-auto mr-16">
                         <button class="w-24 px-4 py-2 bg-gray-200 rounded-xl font-bold"
                             onclick="goBack()">Cancel</button>
                     </div>
                     <div>
                         <button type="submit"
-                            class="w-24 px-4 py-2 bg-ump-green text-white rounded-xl font-bold">Proceed</button>
+                            class="w-24 px-4 py-2 bg-ump-green text-white rounded-xl font-bold ml-4 mr-10">Proceed</button>
                     </div>
                 </div>
             </form>
-
-
         </div>
 </x-app-layout>

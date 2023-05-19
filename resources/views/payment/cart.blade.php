@@ -6,12 +6,12 @@
         </div>
 
         {{-- Content --}}
-        <div class="flex flex-col justify-evenly bg-white border border-slate-300 rounded-xl px-5 py-3"
+        <div class="flex flex-col bg-white border border-slate-300 rounded-xl px-5 py-3"
             style="min-height: 83.333333%; max-height:  83.333333%;">
             <div class="font-bold text-lg">
                 Cart
             </div>
-            <div>
+            <div class="mt-5">
                 <form action="{{ route('cart.store') }}" method="post">
                     @csrf
                     <input type="text" name="product_id" id="product_id" placeholder="Enter Barcode..."
@@ -22,20 +22,20 @@
 
             {{-- Message --}}
             @if (session('success'))
-                <div class="bg-green-200 text-green-800 px-4 py-2 mb-4 rounded-md">
+                <div class="mt-3 bg-green-200 text-green-800 px-4 py-2 mb-4 rounded-md">
                     {{ session('success') }}
                 </div>
             @endif
 
             @if (session('error'))
-                <div class="bg-red-200 text-red-800 px-4 py-2 mb-4 rounded-md">
+                <div class="mt-3 bg-red-200 text-red-800 px-4 py-2 mb-4 rounded-md">
                     {{ session('error') }}
                 </div>
             @endif
 
             {{-- Table --}}
             <div class="overflow-hidden mt-5">
-                <div class="max-h-72 mx-2 overflow-y-auto">
+                <div class="mx-2 overflow-y-auto" style="max-height: 17rem;">
                     <table class="min-w-full table-auto">
                         <thead class="sticky top-0 bg-white">
                             <tr>
@@ -95,7 +95,7 @@
             </div>
 
             {{-- After table --}}
-            <div class="mt-5 flex flex-row justify-between items-center">
+            <div class="mt-auto mb-5 flex flex-row justify-between items-center">
                 <div>
                     <span class="font-bold">Total Price:&nbsp;&nbsp;</span>
                     <span class="font-light">RM&nbsp;&nbsp;</span>
