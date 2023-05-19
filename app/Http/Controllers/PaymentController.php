@@ -40,6 +40,22 @@ class PaymentController extends Controller
         return view('payment.cart', compact('carts', 'totalPrice'));
     }
 
+    public function paymentIndex(){
+        $carts = Cart::where('user_id', '=', auth()->user()->id)
+            ->where('payment_id', '=', null)
+            ->get();
+        
+        $carts -> each(function($cart){
+            $cart->total = $cart->product->product_price * $cart->quantity;
+        });
+
+        $totalPrice = $carts->sum('total');
+
+        // dd($carts, $totalPrice);
+
+        return view('payment.payment', compact('totalPrice'));
+    }
+
     /**
      * Store a newly created resource in Cart.
      */
@@ -82,6 +98,28 @@ class PaymentController extends Controller
         }
     }
 
+    /**
+     * Store a newly created resource in Payment.
+     */
+    public function storePayment(Request $request)
+    {
+        $payment = new Payment();
+        $payment->total_price = $request->total_price;
+        $payment->payment_method = $request->payment_method;
+        $payment->cash_amount = $request->cash_amount;
+        $payment->save();
+
+        $carts = Cart::where('user_id', '=', auth()->user()->id)
+            ->where('payment_id', '=', null)
+            ->get();
+        
+        $carts -> each(function($cart) use ($payment){
+            $cart->payment_id = $payment->id;
+            $cart->save();
+        });
+
+        return redirect()->route('cart')->with('success', 'Payment success!');
+    }
 
 
     /**

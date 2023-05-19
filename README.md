@@ -3,5 +3,5 @@
 
 ## Module Payment
 - [x] Cart
-- [ ] Payment
+- [x] Payment
 - [ ] Change & Receipt

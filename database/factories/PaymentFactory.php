@@ -18,7 +18,7 @@ class PaymentFactory extends Factory
     {
         return [
             'total_price' => $this->faker->randomFloat(2, 0, 999.99),
-            'payment_method' => $this->faker->randomElement(['cash', 'qr']),
+            'payment_method' => $this->faker->randomElement(['Cash', 'QR']),
             'cash_amount' => $this->faker->randomFloat(2, 0, 999.99),
         ];
     }
