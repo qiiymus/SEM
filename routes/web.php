@@ -33,3 +33,10 @@ Route::get('/cart/checkout', [PaymentController::class, 'paymentIndex'])->name('
 Route::post('/cart/checkout', [PaymentController::class, 'storePayment'])->name('payment.store');
 // Change
 Route::get('/change/{payment}', [PaymentController::class, 'changeIndex'])->name('payment.change');
+
+// Inventory Module
+Route::get('/products/add', [ProductController::class, 'create'])->name('addInventory');
+Route::post('/products/store', [ProductController::class, 'store'])->name('storeInventory');
+Route::get('/products/edit/{id}', [ProductController::class, 'edit'])->name('editInventory');
+Route::post('/products/update/{id}', [ProductController::class, 'update'])->name('updateInventory');
+Route::post('/products/delete/{id}', [ProductController::class, 'destroy'])->name('deleteInventory');

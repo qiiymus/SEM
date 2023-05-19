@@ -19,6 +19,7 @@
             #printable,
             #printable * {
                 visibility: visible;
+                overflow: visible;
             }
 
             #printable {
@@ -26,11 +27,6 @@
                 top: 0;
                 margin: 0;
                 padding: 0;
-            }
-
-            #printOverflow,
-            #printOverflow * {
-                overflow: visible;
             }
 
             #buttonP {
@@ -45,6 +41,19 @@
             Change
         </div>
 
+        {{-- Message --}}
+        @if (session('success'))
+            <div class="mt-1 bg-green-200 text-green-800 px-4 py-2 mb-1 rounded-md">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="mt-1 bg-red-200 text-red-800 px-4 py-2 mb-1 rounded-md">
+                {{ session('error') }}
+            </div>
+        @endif
+
         {{-- Content --}}
         <div id="printable" class="flex flex-col bg-white border border-slate-300 rounded-xl px-5 py-3"
             style="min-height: 83.333333%; max-height:  83.333333%;">
@@ -56,21 +65,8 @@
                 <span class="font-bold">{{ $payment[0]->id }}</span>
             </div>
 
-            {{-- Message --}}
-            @if (session('success'))
-                <div class="mt-3 bg-green-200 text-green-800 px-4 py-2 mb-4 rounded-md">
-                    {{ session('success') }}
-                </div>
-            @endif
-
-            @if (session('error'))
-                <div class="mt-3 bg-red-200 text-red-800 px-4 py-2 mb-4 rounded-md">
-                    {{ session('error') }}
-                </div>
-            @endif
-
             {{-- Table --}}
-            <div id="printOverflow" class="overflow-hidden mt-5">
+            <div class="mt-5">
                 <div id="printTable" class="mx-2 overflow-y-auto" style="max-height: 17rem;">
                     <table class="min-w-full table-auto">
                         <thead class="sticky top-0 bg-white">

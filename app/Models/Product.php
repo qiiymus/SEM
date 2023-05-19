@@ -11,12 +11,12 @@ class Product extends Model
     use HasFactory;
     protected $table = "products";
     protected $fillable = [
-        'name',
-        'cost',
-        'price',
-        'quantity',
-        'category',
-        'brand',
+        'product_name',
+        'product_cost',
+        'product_price',
+        'product_quantity',
+        'product_category',
+        'product_brand',
     ];
 
     public function carts()

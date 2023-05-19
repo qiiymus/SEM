@@ -34,7 +34,7 @@
             @endif
 
             {{-- Table --}}
-            <div class="overflow-hidden mt-5">
+            <div class="mt-5">
                 <div class="mx-2 overflow-y-auto" style="max-height: 17rem;">
                     <table class="min-w-full table-auto">
                         <thead class="sticky top-0 bg-white">
