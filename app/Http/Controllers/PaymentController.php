@@ -40,12 +40,18 @@ class PaymentController extends Controller
         return view('payment.cart', compact('carts', 'totalPrice'));
     }
 
-    public function paymentIndex(){
+    public function paymentIndex()
+    {
         $carts = Cart::where('user_id', '=', auth()->user()->id)
             ->where('payment_id', '=', null)
             ->get();
-        
-        $carts -> each(function($cart){
+
+        // If cart is empty, redirect to cart page
+        if ($carts->isEmpty()) {
+            return redirect()->route('cart')->with('error', 'Cart is empty!');
+        }
+
+        $carts->each(function ($cart) {
             $cart->total = $cart->product->product_price * $cart->quantity;
         });
 
@@ -54,6 +60,28 @@ class PaymentController extends Controller
         // dd($carts, $totalPrice);
 
         return view('payment.payment', compact('totalPrice'));
+    }
+
+    public function changeIndex(Payment $payment)
+    {
+        try {
+            $payment = Payment::findOrFail($payment->id);
+        } catch (ModelNotFoundException) {
+            return redirect()->route('cart')->with('error', 'Payment not found!');
+        }
+
+        $payment = Cart::join('products', 'products.id', '=', 'carts.product_id')
+            ->join('payments', 'payments.id', '=', 'carts.payment_id')
+            ->select('carts.product_id', 'products.product_name', 'products.product_price', 'carts.quantity', 'payments.id', 'carts.created_at', "payments.total_price", "payments.payment_method", "payments.cash_amount")
+            ->where('carts.payment_id', '=', $payment->id)
+            ->orderBy('carts.created_at', 'desc')
+            ->get();
+
+        $totalPrice = $payment->last()->total_price;
+
+        //dd($payment, $totalPrice);
+
+        return view('payment.change', compact('payment', 'totalPrice'));
     }
 
     /**
@@ -103,6 +131,11 @@ class PaymentController extends Controller
      */
     public function storePayment(Request $request)
     {
+        // check whether amount is enough or not
+        if ($request->cash_amount < $request->total_price) {
+            return redirect()->back()->with('error', 'Amount Paid is not enough!');
+        }
+
         $payment = new Payment();
         $payment->total_price = $request->total_price;
         $payment->payment_method = $request->payment_method;
@@ -112,30 +145,13 @@ class PaymentController extends Controller
         $carts = Cart::where('user_id', '=', auth()->user()->id)
             ->where('payment_id', '=', null)
             ->get();
-        
-        $carts -> each(function($cart) use ($payment){
+
+        $carts->each(function ($cart) use ($payment) {
             $cart->payment_id = $payment->id;
             $cart->save();
         });
 
-        return redirect()->route('cart')->with('success', 'Payment success!');
-    }
-
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Payment $payment)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Payment $payment)
-    {
-        //
+        return redirect()->route('payment.change', $payment->id)->with('success', 'Payment success!');
     }
 
     /**
@@ -204,6 +220,10 @@ class PaymentController extends Controller
         $carts = Cart::where('user_id', '=', auth()->user()->id)
             ->where('payment_id', '=', null)
             ->get();
+
+        if ($carts->isEmpty()) {
+            return redirect()->route('cart')->with('error', 'Cart is empty!');
+        }
 
         // dd($carts);
 

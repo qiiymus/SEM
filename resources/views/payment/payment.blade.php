@@ -7,17 +7,30 @@
 
         {{-- Content --}}
         <div class="flex flex-col bg-white border border-slate-300 rounded-xl px-5 py-3 gap-y-11 mt-10"
-            style="min-height: 60%; max-height:  60%;">
+            style="min-height: 60%; max-height:  80%;">
             <div class="font-bold text-lg">
                 Payment
             </div>
+
+            {{-- Message --}}
+            @if (session('success'))
+                <div class="bg-green-200 text-green-800 px-4 py-2 rounded-md">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="bg-red-200 text-red-800 px-4 py-2 rounded-md">
+                    {{ session('error') }}
+                </div>
+            @endif
 
             <div>
                 <span class="font-bold">Total Price:&nbsp;&nbsp;</span>
                 <span class="font-light">RM&nbsp;&nbsp;</span>
                 <span class="font-bold">{{ number_format($totalPrice, 2) }}</span>
             </div>
-            <form action="#" method="post" class="h-full w-full">
+            <form action="{{ route('payment.store') }}" method="post" class="h-full w-full">
                 @csrf
                 <input type="hidden" name="total_price" value="{{ $totalPrice }}">
                 <div class="flex flex-row mt-7 gap-x-40">
@@ -44,7 +57,7 @@
                             <span class="font-light">RM&nbsp;&nbsp;</span>
                             <input class="text-center rounded-xl border-x-0 border-t-0 w-36" type="number"
                                 name="cash_amount" id="cash_amount" step="0.01" min="0.01" max="999999.99"
-                                required value="{{ $totalPrice }}">
+                                required value="{{ number_format($totalPrice, 2) }}">
                         </div>
                     </div>
                 </div>
