@@ -24,6 +24,7 @@ Route::get('/products', [ProductController::class, 'index'])->name('product');
 Route::get('/cart', [PaymentController::class, 'index'])->name('cart');
 Route::post('/cart', [PaymentController::class, 'storeCart'])->name('cart.store');
 Route::delete('/cart/{id}', [PaymentController::class, 'destroyCart'])->name('cart.destroy');
+Route::post('/cart/clear', [PaymentController::class, 'destroyAll'])->name('cart.destroyAll');
 Route::get('/cart/{id}/increment', [PaymentController::class, 'incrementQuantity'])->name('cart.plus');
 Route::get('/cart/{id}/decrement', [PaymentController::class, 'decrementQuantity'])->name('cart.minus');
-Route::get('/cart/checkout', [PaymentController::class, 'paymentIndex'])->name('payment.pay');
+// Route::get('/cart/checkout', [PaymentController::class, 'paymentIndex'])->name('payment.pay');

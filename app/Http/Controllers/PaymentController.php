@@ -157,4 +157,22 @@ class PaymentController extends Controller
             return redirect()->route('cart')->with('error', 'Failed to delete product from cart!');
         }
     }
+
+    /**
+     * Remove the all from Cart.
+     */
+    public function destroyAll()
+    {
+        $carts = Cart::where('user_id', '=', auth()->user()->id)
+            ->where('payment_id', '=', null)
+            ->get();
+
+        // dd($carts);
+
+        foreach ($carts as $cart) {
+            $cart->delete();
+        }
+
+        return redirect()->route('cart')->with('success', 'All product deleted from cart successfully!');
+    }
 }

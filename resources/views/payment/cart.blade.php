@@ -101,10 +101,17 @@
                     <span class="font-light">RM&nbsp;&nbsp;</span>
                     <span class="font-bold">{{ number_format($totalPrice, 2) }}</span>
                 </div>
+                {{-- Cart clear --}}
+                <script>
+                    function confirmDeleteCart() {
+                        return confirm('Are you sure you want to delete the entire cart?');
+                    }
+                </script>                
                 <div class="ml-auto mr-10">
-                    <a href="{{ route('dashboard') }}">
-                        <button class="w-20 px-4 py-2 bg-gray-200 rounded-xl font-bold">Cancel</button>
-                    </a>
+                    <form action="{{ route('cart.destroyAll') }}" method="post">
+                        @csrf
+                        <button type="submit" onclick="return confirmDeleteCart()" class="w-20 px-4 py-2 bg-gray-200 rounded-xl font-bold">Cancel</button>
+                    </form>
                 </div>
                 <div>
                     <a href="{{ route('payment.pay') }}">
