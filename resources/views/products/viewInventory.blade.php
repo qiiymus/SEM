@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div>
+    <div class="h-full">
         <p class="text-xl mb-4">Inventory</p>
         <div class="flex justify-end w-full mb-5 relative right-0">
             @include('components.searchbar')
@@ -9,7 +9,7 @@
                 Add Product
             </a>
         </div>
-        <div class="bg-white border border-slate-300 rounded-xl w-full p-4">
+        <div class="bg-white border border-slate-300 rounded-xl w-full p-4 overflow-y-auto h-4/5">
             <table class="table-auto w-full text-center">
                 <thead>
                     <tr>
