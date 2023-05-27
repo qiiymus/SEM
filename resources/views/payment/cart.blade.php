@@ -15,7 +15,7 @@
                 <form action="{{ route('cart.store') }}" method="post">
                     @csrf
                     <input type="text" name="product_id" id="product_id" placeholder="Enter Barcode..."
-                        class="text-center rounded-xl border-x-0 border-t-0">
+                        class="text-center rounded-xl border-x-0 border-t-0" autofocus>
                     <input type="submit" value="Add Item" class="ml-6 p-2 rounded-xl text-white bg-ump-green">
                 </form>
             </div>
