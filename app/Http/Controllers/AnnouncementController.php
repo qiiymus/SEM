@@ -9,8 +9,6 @@ class AnnouncementController extends Controller
 {
     public function index()
     {
-        // $announcements = Announcement::all();
-        // return view ('announcements.viewAnnouncement')->with('announcements', $announcements);
         $announcements = Announcement::all();
         return view('announcements.viewAnnouncement')->with('announcements', $announcements);
     }
@@ -28,12 +26,6 @@ class AnnouncementController extends Controller
      */
     public function store(Request $request)
     {
-        // $announcement = new Announcement();
-        // Announcement::orderby('id')->get();
-        // $announcement->product_id = $request->product_id;
-        // $announcement->product_name = $request->name;
-        // $announcement->save();
-        // return redirect()->route('announcement')->with('success', 'Announcement added successfully');
         $request->validate([
             'title' => 'required',
             'desc' => 'required',
@@ -68,16 +60,6 @@ class AnnouncementController extends Controller
     /**
      * Update the specified resource in storage.
      */
-
-    // public function update(Request $request, announcement $announcement)
-    // {
-    //     $announcement = Announcement::find($request->id);
-    //     $announcement->id = $request->id;
-    //     $announcement->title = $request->title;
-    //     $announcement->description = $request->description;
-    //     $announcement->save();
-    //     return redirect()->route('announcement')->with('success', 'Announcement updated successfully');
-    // }
 
     public function update(Request $request, $id)
     {
