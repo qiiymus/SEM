@@ -17,6 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -26,3 +27,11 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
+// Duty Roster  Module
+Route::get('/DutyRoster/add', [DutyRosterController::class, 'create'])->name('addDuty');
+Route::post('/DutyRoster/store', [DutyRosterController::class, 'store'])->name('storeDuty');
+Route::get('/DutyRoster/edit/{id}', [DutyRosterController::class, 'edit'])->name('editDuty');
+Route::post('/DutyRoster/update/{id}', [DutyRosterController::class, 'update'])->name('updateDuty');
+Route::post('/DutyRoster/delete/{id}', [DutyRosterController::class, 'destroy'])->name('deleteDuty');
+
