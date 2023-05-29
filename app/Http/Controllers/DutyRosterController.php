@@ -12,9 +12,8 @@ class DutyRosterController extends Controller
      */
     public function index()
     {
-        //
-        $duty_rosters = DutyRoster::all();
-        return view ('duty_rosters.viewDuty')->with('duty_rosters', $duty_rosters);
+        $dutyRoster = DutyRoster::all();
+        return view ('dutyRoster.viewDuty',compact('dutyRoster'));
     }
 
     /**
@@ -73,11 +72,15 @@ class DutyRosterController extends Controller
         //
 
         $duty_rosters = DutyRoster::find($request->id);
-        $duty_rosters->user_id = $request->product_id;
-        $duty_rosters->product_name = $request->name;
-        $duty_rosters->product_quantity = $request->quantity;
-        $duty_rosters->product_category = $request->category;
-        $duty_rosters->product_brand = $request->brand;
+
+        $duty_rosters->user_id = $request->user_id;
+        $duty_rosters->week = $request->week;
+        $duty_rosters->duty_date = $request->date;
+        $duty_rosters->duty_start_time = $request->start_time;
+        $duty_rosters->duty_end_time = $request->end_time ;
+
+
+
         $duty_rosters->save();
         return redirect()->route('DutyRoster')->with('success', 'Duty updated successfully');
     }

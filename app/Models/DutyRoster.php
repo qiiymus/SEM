@@ -9,7 +9,7 @@ class DutyRoster extends Model
 {
     use HasFactory;
 
-    protected $table = "DutyRoster";
+    protected $table = "DutyRosters";
     protected $fillable = [
         'user_id',
         'week',
