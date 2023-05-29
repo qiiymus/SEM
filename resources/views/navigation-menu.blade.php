@@ -6,19 +6,9 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center p-1">
                     <a href="{{ route('dashboard') }}">
-                        <img src="{{ asset('images/ump.png') }}" alt="PMMS" width="80" height="80" />
+                        <img src="{{ asset('images/ump.png') }}" alt="PMMS" width="80" height="80"/>
                     </a>
                     <p>PMMS</p>
-                </div>
-
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <!-- <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                    <x-nav-link href="#">
-                        {{ __('Product') }}
-                    </x-nav-link> -->
                 </div>
             </div>
 

@@ -38,7 +38,7 @@
 
         <!-- Page Content -->
         <main>
-            <div class="flex">
+            <div class="flex h-screen">
                 @include('sidebar')
                 <div class="px-8 py-4 w-full">
                     {{ $slot }}

@@ -10,7 +10,7 @@
                 <table class="rounded-xl px-4 w-3/6">
                     <tbody >
                         <tr>
-                            <td class="px-4 py-2"><label>ID</label></td>
+                            <td class="px-4 py-2"><label>Barcode</label></td>
                             <td class="px-4 py-2"><input type="text" name="product_id" class="form-control rounded-xl w-2/5 bg-gray-200 border border-slate-400" required></td>
                         </tr>
                         <tr>

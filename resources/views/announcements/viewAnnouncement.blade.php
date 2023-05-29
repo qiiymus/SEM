@@ -1,40 +1,32 @@
 <x-app-layout>
     <div class="h-full">
-        <p class="text-xl mb-4">Inventory</p>
+        <p class="text-xl mb-4">Announcement</p>
         <div class="flex justify-end w-full mb-5 relative right-0">
             @include('components.searchbar')
-            <a href="{{ route('addInventory') }}"
+            <a href="{{ route('addAnnouncement') }}"
                 class="p-2 mx-2 border border-transparent rounded-xl hover:text-gray-600"
                 style="background-color: #00AEA6;">
-                Add Product
+                Add Announcement
             </a>
         </div>
         <div class="bg-white border border-slate-300 rounded-xl w-full p-4 overflow-y-auto h-4/5">
             <table class="table-auto w-full text-center">
                 <thead>
                     <tr>
-                        <th class="py-2">BARCODE</th>
-                        <th class="py-2">NAME</th>
-                        <th class="py-2">COST</th>
-                        <th class="py-2">PRICE</th>
-                        <th class="py-2">QUANTITY</th>
-                        <th class="py-2">CATEGORY</th>
-                        <th class="py-2">BRAND</th>
+                        <th class="py-2">ID</th>
+                        <th class="py-2">TITLE</th>
+                        <th class="py-2">DESCRIPTION</th>
                         <th class="py-2">ACTION</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($products as $item)
+                    @foreach ($announcements as $announcement)
                         <tr class="bg-gray-200 border-y-8 border-white">
-                            <td class="py-2">{{ $item->product_id }}</td>
-                            <td class="py-2">{{ $item->product_name }}</td>
-                            <td class="py-2">{{ number_format($item->product_cost, 2) }}</td>
-                            <td class="py-2">{{ number_format($item->product_price, 2) }}</td>
-                            <td class="py-2">{{ $item->product_quantity }}</td>
-                            <td class="py-2">{{ $item->product_category }}</td>
-                            <td class="py-2">{{ $item->product_brand }}</td>
+                            <td class="py-2 px-4">{{ $announcement->id }}</td>
+                            <td class="py-2 px-4" style="text-align: left">{{ $announcement->title }}</td>
+                            <td class="py-2 px-4" style="text-align: left">{{ $announcement->description }}</td>
                             <td class="flex justify-center">
-                                <a href="{{ route('editInventory', $item->id) }}">
+                                <a href="{{ route('editAnnouncement', $announcement->id) }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-emerald-400 m-2"
                                         fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -42,13 +34,13 @@
                                     </svg>
                                 </a>
                                 <script>
-                                    function confirmDeleteProduct() {
-                                        return confirm('Are you sure you want to delete the product?');
+                                    function confirmDeleteAnnouncement() {
+                                        return confirm('Are you sure you want to delete the announcement?');
                                     }
                                 </script>
-                                <form action="{{ route('deleteInventory', $item->id) }}" method="post">
+                                <form action="{{ route('deleteAnnouncement', $announcement->id) }}" method="post">
                                     @csrf
-                                    <button type="submit" onclick="return confirmDeleteProduct()">
+                                    <button type="submit" onclick="return confirmDeleteAnnouncement()">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-400 m-2"
                                             fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -57,6 +49,7 @@
                                     </button>
                                 </form>
                             </td>
+                        </tr>
                     @endforeach
                 </tbody>
             </table>
