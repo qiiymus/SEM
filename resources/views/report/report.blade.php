@@ -77,20 +77,38 @@
                         {{ __('Select Time Range') }}
                     </div>
 
-                    <!-- Weekly Slot -->
-                    <x-dropdown-link href="report.data" data-option="weekly">
-                        {{ __('Weekly') }}
-                    </x-dropdown-link>
+                    <form action="{{ route('report') }}" method="post">
+                        @csrf
+                        <!-- Weekly Slot -->
+                        <button type="submit" class="w-full">
+                            <x-dropdown-link>
+                                {{ __('Weekly') }}
+                            </x-dropdown-link>
+                            <input type="hidden" name="range" value="weekly">
+                        </button>
+                    </form>
+                    
+                    <form action="{{ route('report') }}" method="post">
+                        @csrf
+                        <!-- Monthly Slot -->
+                        <button type="submit" class="w-full">
+                            <x-dropdown-link>
+                                {{ __('Monthly') }}
+                            </x-dropdown-link>
+                            <input type="hidden" name="range" value="monthly">
+                        </button>
+                    </form>
 
-                    <!-- Monthly Slot -->
-                    <x-dropdown-link href="report.data" data-option="monthly">
-                        {{ __('Monthly') }}
-                    </x-dropdown-link>
-
-                    <!-- Yearly Slot -->
-                    <x-dropdown-link href="report.data" data-option="yearly">
-                        {{ __('Yearly') }}
-                    </x-dropdown-link>
+                    <form action="{{ route('report') }}" method="post">
+                        @csrf
+                        <!-- Yearly Slot -->
+                        <button type="submit" class="w-full">
+                            <x-dropdown-link>
+                                {{ __('Yearly') }}
+                            </x-dropdown-link>
+                            <input type="hidden" name="range" value="yearly">
+                        </button>
+                    </form>
 
                     <div class="border-t border-[#00AEA6]"></div>
                 </x-slot>
@@ -139,9 +157,10 @@
                         // var productDataUrl = '{{ route('report.barchart') }}';
                         // var productDataUrlMonthly = '{{ route('report.monthlySlot') }}';
                         // var productDataUrlYearly = '{{ route('report.yearlySlot') }}';
-                        var productDataUrlWeekly = '{{ route('report.data', 'weekly') }}';
-                        var productDataUrlMonthly = '{{ route('report.data', 'monthly') }}';
-                        var productDataUrlYearly = '{{ route('report.data', 'yearly') }}';
+                        // var productDataUrlWeekly = '{{ route('report.data', 'weekly') }}';
+                        // var productDataUrlMonthly = '{{ route('report.data', 'monthly') }}';
+                        // var productDataUrlYearly = '{{ route('report.data', 'yearly') }}';
+                        var productDataUrl = '{{ route('report.data', $range) }}';
 
                         google.charts.load('current', {
                             'packages': ['bar']
@@ -197,28 +216,13 @@
                                 });
                             }
 
-                            // Event listener for the dropdown selection
-                            $('body').on('click', '.dropdown-link', function(e) {
-                                e.preventDefault();
-
-                                var selectedOption = $(this).attr('data-option');
-
-                                if (selectedOption === 'weekly') {
-                                    updateChart(productDataUrlWeekly);
-                                } else if (selectedOption === 'monthly') {
-                                    updateChart(productDataUrlMonthly);
-                                } else if (selectedOption === 'yearly') {
-                                    updateChart(productDataUrlYearly);
-                                }
-                            });
-                            updateChart(productDataUrlWeekly);
+                            updateChart(productDataUrl);
                         }
                     </script>
                 </head>
 
                 <body>
-                    <div id="columnchart_material" style="width: 800px;
-                        height: 500px;">
+                    <div id="columnchart_material">
                     </div>
                 </body>
 

@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
+use Carbon\Carbon;
 use App\Models\Cart;
+use App\Models\Product;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
-use Carbon\Carbon;
-
 
 class ReportController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
         $currentDate = Carbon::now()->format('l, d F Y');
 
@@ -42,10 +42,19 @@ class ReportController extends Controller
                 'products.product_quantity'
             )
             ->get();
+        
+        if ($request['range'] == 'weekly' || $request['range'] == 'monthly' || $request['range'] == 'yearly') {
+            $range = $request['range'];
+        } else {
+            $range = 'weekly';
+        }
+
+        // dd($request['range']);
 
         return view('report.report')->with([
             'currentDate' => $currentDate,
             'products' => $products,
+            'range' => $range,
         ]);
     }
 

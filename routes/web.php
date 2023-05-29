@@ -45,6 +45,7 @@ Route::post('/products/delete/{id}', [ProductController::class, 'destroy'])->nam
 
 //Report Module
 Route::get('/report', [ReportController::class, 'index'])->name('report');
+Route::post('/report', [ReportController::class, 'index'])->name('report');
 Route::get('report/barChart', [ReportController::class, 'barChart'])->name('report.barchart');
 Route::get('report/data/{range}', [ReportController::class, 'getData'])->name('report.data');
 Route::get('/report/export', [ReportController::class, 'exportCSV'])->name('csv');
