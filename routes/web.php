@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ReportController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -40,3 +42,12 @@ Route::post('/products/store', [ProductController::class, 'store'])->name('store
 Route::get('/products/edit/{id}', [ProductController::class, 'edit'])->name('editInventory');
 Route::post('/products/update/{id}', [ProductController::class, 'update'])->name('updateInventory');
 Route::post('/products/delete/{id}', [ProductController::class, 'destroy'])->name('deleteInventory');
+
+//Report Module
+Route::get('/report', [ReportController::class, 'index'])->name('report');
+Route::get('report/barChart', [ReportController::class, 'barChart'])->name('report.barchart');
+Route::get('report/data/{range}', [ReportController::class, 'getData'])->name('report.data');
+Route::get('/report/export', [ReportController::class, 'exportCSV'])->name('csv');
+Route::get('/report/weekly-slot', [ReportController::class, 'weeklySlot'])->name('report.weeklySlot');
+Route::get('/report/monthly-slot', [ReportController::class, 'monthlySlot'])->name('report.monthlySlot');
+Route::get('/report/yearly-slot', [ReportController::class, 'yearlySlot'])->name('report.yearlySlot');
