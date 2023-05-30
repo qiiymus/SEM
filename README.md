@@ -23,4 +23,4 @@ SEP Project 2023
 - [x] Payment
 - [ ] Report
 - [ ] Duty Roster
-- [ ] Announcement
+- [x] Announcement

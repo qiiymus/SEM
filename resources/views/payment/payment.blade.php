@@ -57,7 +57,7 @@
                             <span class="font-light">RM&nbsp;&nbsp;</span>
                             <input class="text-center rounded-xl border-x-0 border-t-0 w-auto" type="number"
                                 name="cash_amount" id="cash_amount" step="0.01" min="0.01" max="999999.99"
-                                required value="{{ number_format($totalPrice, 2, '.', '') }}">
+                                required autofocus value="{{ number_format($totalPrice, 2, '.', '') }}">
                         </div>
                     </div>
                 </div>
