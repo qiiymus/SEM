@@ -21,6 +21,6 @@ SEP Project 2023
 - [ ] User
 - [x] Inventory
 - [x] Payment
-- [ ] Report
+- [x] Report
 - [ ] Duty Roster
 - [x] Announcement

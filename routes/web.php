@@ -3,8 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\AnnouncementController;
 
+// Change this to change the default page
 Route::get('/', function () {
     return view('welcome');
 });
@@ -40,6 +42,12 @@ Route::post('/products/store', [ProductController::class, 'store'])->name('store
 Route::get('/products/edit/{id}', [ProductController::class, 'edit'])->name('editInventory');
 Route::post('/products/update/{id}', [ProductController::class, 'update'])->name('updateInventory');
 Route::post('/products/delete/{id}', [ProductController::class, 'destroy'])->name('deleteInventory');
+
+//Report Module
+Route::get('/report', [ReportController::class, 'index'])->name('report');
+Route::post('/report', [ReportController::class, 'index'])->name('report');
+Route::get('report/data/{range}', [ReportController::class, 'getData'])->name('report.data');
+Route::get('/report/export', [ReportController::class, 'exportCSV'])->name('csv');
 
 // Announcement Module
 Route::get('/dashboard/announcements', [AnnouncementController::class, 'index'])->name('announcement');

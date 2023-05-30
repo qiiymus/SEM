@@ -40,7 +40,7 @@
         <main>
             <div class="flex h-screen">
                 @include('sidebar')
-                <div class="px-8 py-4 w-full">
+                <div class="px-8 py-4 w-full overflow-auto">
                     {{ $slot }}
         </main>
     </div>
