@@ -8,6 +8,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Log;
 
 class ReportController extends Controller
 {
@@ -15,6 +16,20 @@ class ReportController extends Controller
     public function index(Request $request)
     {
         $currentDate = Carbon::now()->format('l, d F Y');
+
+        //join table cart
+        $totalQuantity = 0;
+        $carts = Cart::join('products', 'products.id', '=', 'carts.product_id')
+            ->select('carts.id', 'products.product_id', 'products.product_name', 'products.product_price', 'products.product_category', 'products.product_cost', 'carts.quantity', 'carts.created_at', 'carts.payment_id')
+            ->where('carts.payment_id', '!=', null)
+            ->orderBy('carts.created_at', 'desc')
+            ->get();
+
+        foreach ($carts as $cart) {
+            $cart->profit = ($cart->product_price * $cart->quantity) - ($cart->product_cost * $cart->quantity);
+        }
+
+        // dd($carts);
 
         $products = Product::select(
             'products.product_id',
@@ -42,80 +57,49 @@ class ReportController extends Controller
                 'products.product_quantity'
             )
             ->get();
-        
+
         if ($request['range'] == 'weekly' || $request['range'] == 'monthly' || $request['range'] == 'yearly') {
             $range = $request['range'];
         } else {
             $range = 'weekly';
         }
 
-        // dd($request['range']);
+        // dd($products);
 
         return view('report.report')->with([
             'currentDate' => $currentDate,
+            'carts' => $carts,
             'products' => $products,
             'range' => $range,
         ]);
     }
 
-    public function barChart()
-    {
-        // Get the product categories
-        $categories = Product::pluck('product_category')->unique();
-
-        // Initialize the product data array
-        $productData = [];
-
-        // Define the week range
-        $weeks = [
-            'week1' => [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()],
-            'week2' => [Carbon::now()->startOfWeek()->subWeek(), Carbon::now()->endOfWeek()->subWeek()],
-            'week3' => [Carbon::now()->startOfWeek()->subWeeks(2), Carbon::now()->endOfWeek()->subWeeks(2)],
-            'week4' => [Carbon::now()->startOfWeek()->subWeeks(3), Carbon::now()->endOfWeek()->subWeeks(3)],
-        ];
-
-        // Loop through the categories and calculate the total quantity sold by week
-        foreach ($weeks as $week => $weekRange) {
-            $weekData = [
-                'week' => $week,
-                // 'ProductSold' => 0,
-            ];
-
-            foreach ($categories as $category) {
-                $quantity = Cart::whereHas('product', function ($query) use ($category) {
-                    $query->where('product_category', $category);
-                })->whereBetween('updated_at', $weekRange)->sum('quantity');
-
-                $weekData[$category] = $quantity;
-            }
-
-            $productData[] = $weekData;
-        }
-
-        return response()->json($productData);
-    }
 
     public function exportCSV()
     {
-        $products = Product::select(
-            'product_id',
-            'product_brand',
-            'product_category',
-            'product_price',
-            'product_cost',
-            'product_quantity',
-        )->get();
+
+        //join table cart
+        $totalQuantity = 0;
+        $carts = Cart::join('products', 'products.id', '=', 'carts.product_id')
+            ->select('carts.id', 'products.product_id', 'products.product_name', 'products.product_price', 'products.product_category', 'products.product_cost', 'carts.quantity', 'carts.created_at', 'carts.payment_id')
+            ->where('carts.payment_id', '!=', null)
+            ->orderBy('carts.created_at', 'desc')
+            ->get();
+
+        foreach ($carts as $cart) {
+            $cart->profit = ($cart->product_price * $cart->quantity) - ($cart->product_cost * $cart->quantity);
+        }
 
         $data = [];
-        foreach ($products as $item) {
+        foreach ($carts as $cart) {
             $row = [
-                $item->product_id,
-                $item->product_brand,
-                $item->product_category,
-                number_format($item->product_price, 2),
-                number_format($item->product_cost, 2),
-                $item->product_quantity,
-                $item->product_brand,
+                $cart->product_id,
+                $cart->product_name,
+                $cart->product_category,
+                number_format($cart->product_price, 2),
+                number_format($cart->product_cost, 2),
+                $cart->quantity,
+                $cart->profit,
             ];
             $data[] = $row;
         }
@@ -127,7 +111,7 @@ class ReportController extends Controller
         $file = fopen($tempFilePath, 'w');
 
         // Write the fields to the temporary file
-        fputcsv($file, ['ITEM ID', 'BRAND', 'CATEGORY', 'PRICE', 'COST', 'QUANTITY SOLD', 'TOTAL SALES']);
+        fputcsv($file, ['ITEM ID', 'NAME', 'CATEGORY', 'PRICE', 'COST', 'QUANTITY SOLD', 'TOTAL SALES']);
 
         // Iterate through the data and write it to the temporary file
         foreach ($data as $row) {
@@ -152,83 +136,6 @@ class ReportController extends Controller
         return $response;
     }
 
-    public function weeklySlot()
-    {
-        // Get the product categories
-        $categories = Product::pluck('product_category')->unique();
-
-        // Initialize the product data array
-        $productData = [];
-
-        // Define the week range
-        $weeks = [
-            'week1' => [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()],
-            'week2' => [Carbon::now()->startOfWeek()->subWeek(), Carbon::now()->endOfWeek()->subWeek()],
-            'week3' => [Carbon::now()->startOfWeek()->subWeeks(2), Carbon::now()->endOfWeek()->subWeeks(2)],
-            'week4' => [Carbon::now()->startOfWeek()->subWeeks(3), Carbon::now()->endOfWeek()->subWeeks(3)],
-        ];
-
-        // Loop through the categories and calculate the total quantity sold by week
-        foreach ($weeks as $week => $weekRange) {
-            $weekData = [
-                'week' => $week,
-                // 'ProductSold' => 0,
-            ];
-
-            foreach ($categories as $category) {
-                $quantity = Cart::whereHas('product', function ($query) use ($category) {
-                    $query->where('product_category', $category);
-                })->whereBetween('updated_at', $weekRange)->sum('quantity');
-
-                $weekData[$category] = $quantity;
-            }
-
-            $productData[] = $weekData;
-        }
-
-        return response()->json($productData);
-    }
-
-    public function monthlySlot()
-    {
-        // Get the product categories
-        $categories = Product::pluck('product_category')->unique();
-
-        // Initialize the product data array
-        $productData = [];
-
-        // Define the month range
-        $months = [
-            'Jan' => [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()],
-            'Feb' => [Carbon::now()->startOfMonth()->subMonth(), Carbon::now()->endOfMonth()->subMonth()],
-            'Mar' => [Carbon::now()->startOfMonth()->subMonths(2), Carbon::now()->endOfMonth()->subMonths(2)],
-            // Add more months as needed
-        ];
-
-        // Loop through the categories and calculate the total quantity sold by month
-        foreach ($months as $month => $monthRange) {
-            $monthData = [
-                'month' => $month,
-            ];
-
-            foreach ($categories as $category) {
-                $quantity = Cart::whereHas('product', function ($query) use ($category) {
-                    $query->where('product_category', $category);
-                })->whereBetween('updated_at', $monthRange)->sum('quantity');
-
-                $monthData[$category] = $quantity;
-            }
-
-            $productData[] = $monthData;
-        }
-
-        return response()->json($productData);
-    }
-
-    public function yearlySlot()
-    {
-        // Logic to handle the yearly slot request
-    }
 
     public function getData($range)
     {
@@ -238,10 +145,10 @@ class ReportController extends Controller
             case 'weekly':
                 $categories = Product::pluck('product_category')->unique();
                 $weeks = [
-                    'week1' => [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()],
-                    'week2' => [Carbon::now()->startOfWeek()->subWeek(), Carbon::now()->endOfWeek()->subWeek()],
-                    'week3' => [Carbon::now()->startOfWeek()->subWeeks(2), Carbon::now()->endOfWeek()->subWeeks(2)],
-                    'week4' => [Carbon::now()->startOfWeek()->subWeeks(3), Carbon::now()->endOfWeek()->subWeeks(3)],
+                    'Week 1' => [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()],
+                    'Week 2' => [Carbon::now()->startOfWeek()->subWeek(), Carbon::now()->endOfWeek()->subWeek()],
+                    'Week 3' => [Carbon::now()->startOfWeek()->subWeeks(2), Carbon::now()->endOfWeek()->subWeeks(2)],
+                    'Week 4' => [Carbon::now()->startOfWeek()->subWeeks(3), Carbon::now()->endOfWeek()->subWeeks(3)],
                 ];
 
                 foreach ($weeks as $week => $weekRange) {
@@ -294,6 +201,9 @@ class ReportController extends Controller
 
                     $productData[] = $monthData;
                 }
+
+                Log::debug('Product Data:', $productData);
+
 
                 break;
 
