@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('user_id', 100);
             $table->integer('week');
             $table->date('date', 9, 2);
-            $table->enum('status', ['In progress', 'Done']);
+            $table->string('status',100);
             $table->time('start_time',0);
             $table->time('end_time',0);
             $table->timestamps();

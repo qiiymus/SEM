@@ -18,13 +18,14 @@ class DutyRosterFactory extends Factory
     {
         return [
             'user_id' => $this->faker->unique()->randomNumber(2),
+            'user_name' => $this->faker->user_name(),
             'week' => $this->faker->week(),
             'date' => $this->faker->randomFloat(2, 0, 100),
-            'status' => $this->faker->randomFloat(2, 0, 100),
+            'status' => $this->faker->status(),
             'start_time' => $this->faker->randomNumber(2),
-            'end_time' => $this->faker->randomElement(['food', 'stationary']),
-            'created_date' => $this->faker->word(),
-            'updated_date' => $this->faker->word(),
+            'end_time' => $this->faker->randomNumber(2),
+            // 'created_date' => $this->faker->word(),
+            // 'updated_date' => $this->faker->word(),
             //
         ];
     }

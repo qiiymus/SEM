@@ -12,6 +12,7 @@ class DutyRoster extends Model
     protected $table = "DutyRosters";
     protected $fillable = [
         'user_id',
+        'user_name',
         'week',
         'date',
         'status',
