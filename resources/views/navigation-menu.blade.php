@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center p-1">
                     <a href="{{ route('dashboard') }}">
-                        <img src="{{ asset('images/ump.png') }}" alt="PMMS" width="80" height="80"/>
+                        <img src="{{ asset('images/petakom-logo.png') }}" alt="PMMS" width="80" height="80" class="p-1"/>
                     </a>
                     <p>PMMS</p>
                 </div>

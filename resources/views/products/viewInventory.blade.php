@@ -9,6 +9,16 @@
                 Add Product
             </a>
         </div>
+        <div class="w-full mb-3">
+            {{-- Return alert message if inventory stock is low --}}
+            @if ($alert->count() > 0)
+                @foreach ($alert as $item)
+                    <div class="bg-red-500 p-1 m-1 rounded-xl text-white text-center">
+                        {{ $item->product_name }} is low in stock. Quantity left: {{ $item->product_quantity }}.
+                    </div>
+                @endforeach
+            @endif
+        </div>
         <div class="bg-white border border-slate-300 rounded-xl w-full p-4 overflow-y-auto h-4/5">
             <table class="table-auto w-full text-center">
                 <thead>

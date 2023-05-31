@@ -10,7 +10,14 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-        return view ('products.viewInventory')->with('products', $products);
+        /**If inventory is low in stock, return alert message */
+        $alert = Product::where('product_quantity', '<=', 5)->get();
+        if (count($alert) > 0) {
+            return view('products.viewInventory')->with('products', $products)->with('alert', $alert);
+        }
+        else{
+            return view ('products.viewInventory')->with('products', $products);
+        }
     }
 
     /**
