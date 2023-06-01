@@ -13,7 +13,8 @@ class ProductController extends Controller
         /**If inventory is low in stock, return alert message */
         $alert = Product::where('product_quantity', '<=', 5)->get();
         if (count($alert) > 0) {
-            return view('products.viewInventory')->with('products', $products)->with('alert', $alert);
+            // return view('products.viewInventory')->with('products', $products)->with('alert', $alert);
+            return view('products.viewInventory', compact('products', 'alert'));
         }
         else{
             return view ('products.viewInventory')->with('products', $products);
