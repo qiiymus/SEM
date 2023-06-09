@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="h-full">
+    <div class="h-full mb-5">
         <p class="text-xl mb-4">Inventory</p>
         <div class="flex justify-end w-full mb-5 relative right-0">
             @include('components.searchbar')
