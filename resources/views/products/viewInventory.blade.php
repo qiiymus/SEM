@@ -19,6 +19,7 @@
                 @endforeach
             @endif
         </div>
+
         <div class="bg-white border border-slate-300 rounded-xl w-full p-4 overflow-y-auto h-4/5 mb-5" style="max-height: 26rem">
             <table class="table-auto w-full text-center">
                 <thead class="sticky top-0 bg-white">

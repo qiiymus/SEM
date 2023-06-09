@@ -12,6 +12,7 @@ class ProductController extends Controller
         $products = Product::all();
         /**If inventory is low in stock, return alert message */
         $alert = Product::where('product_quantity', '<=', 5)->get();
+
         if (count($alert) <= 0) {
             $alert = null;
         }

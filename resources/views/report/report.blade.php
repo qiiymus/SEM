@@ -54,6 +54,7 @@
         }
     </style>
 
+
     <div class="flex flex-col">
         {{-- Title --}}
         <div class="font-extrabold text-xl mt-2">
@@ -258,6 +259,7 @@
             </div>
 
         </div>
+
 
         <div id="printable-section2" class="mb-5">
             <div class="font-bold text-lg my-2">
