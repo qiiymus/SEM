@@ -23,11 +23,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    protected $guarded = [];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -59,6 +55,11 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
+    public function carts()
+    {
+        return $this->hasMany(Cart::class);
+    }
+    
     public function announcements()
     {
         return $this->hasMany(Announcement::class);

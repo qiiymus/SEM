@@ -2,15 +2,13 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-<<<<<<< Updated upstream
-=======
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
->>>>>>> Stashed changes
 use App\Http\Controllers\AnnouncementController;
 
+// Change this to change the default page
 Route::get('/', function () {
     if (Auth::check()) {
         return redirect('/dashboard');
@@ -29,8 +27,6 @@ Route::middleware([
     })->name('dashboard');
 });
 
-<<<<<<< Updated upstream
-=======
 // Payment Module
 // Cart
 Route::get('/cart', [PaymentController::class, 'index'])->name('cart');
@@ -60,7 +56,6 @@ Route::get('report/data/{range}', [ReportController::class, 'getData'])->name('r
 Route::get('/report/export', [ReportController::class, 'exportCSV'])->name('csv');
 
 // Announcement Module
->>>>>>> Stashed changes
 Route::get('/dashboard/announcements', [AnnouncementController::class, 'index'])->name('announcement');
 Route::get('/announcements/add', [AnnouncementController::class, 'create'])->name('addAnnouncement');
 Route::post('/announcements/store', [AnnouncementController::class, 'store'])->name('storeAnnouncement');
