@@ -18,7 +18,7 @@ SEP Project 2023
         - Password: test
 
 ## Integration Plan
-- [ ] User
+- [x] User
 - [x] Inventory
 - [x] Payment
 - [x] Report

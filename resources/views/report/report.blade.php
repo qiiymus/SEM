@@ -54,7 +54,8 @@
         }
     </style>
 
-    <div class="flex flex-col h-full">
+
+    <div class="flex flex-col">
         {{-- Title --}}
         <div class="font-extrabold text-xl mt-2">
             Report
@@ -259,13 +260,14 @@
 
         </div>
 
-        <div id="printable-section2">
+
+        <div id="printable-section2" class="mb-5">
             <div class="font-bold text-lg my-2">
                 Product Sales
             </div>
-            <div class="bg-white border border-slate-300 rounded-xl w-full p-4 overflow-y-auto h-4/5">
+            <div class="bg-white border border-slate-300 rounded-xl w-full p-4 overflow-y-auto h-4/5 max-h-80">
                 <table class="table-auto w-full text-center">
-                    <thead>
+                    <thead class="sticky top-0 bg-white">
                         <tr>
                             <th class="py-2">ITEM ID</th>
                             <th class="py-2">BRAND</th>

@@ -1,14 +1,20 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\ReportController;
 use App\Http\Controllers\AnnouncementController;
 
 // Change this to change the default page
 Route::get('/', function () {
-    return view('welcome');
+    if (Auth::check()) {
+        return redirect('/dashboard');
+    } else {
+        return redirect()->route('login');
+    }
 });
 
 Route::middleware([
@@ -44,7 +50,7 @@ Route::post('/products/update/{id}', [ProductController::class, 'update'])->name
 Route::post('/products/delete/{id}', [ProductController::class, 'destroy'])->name('deleteInventory');
 
 //Report Module
-Route::get('/report', [ReportController::class, 'index'])->name('report');
+Route::get('/report', [ReportController::class, 'index'])->name('report')->middleware('role:admin');
 Route::post('/report', [ReportController::class, 'index'])->name('report');
 Route::get('report/data/{range}', [ReportController::class, 'getData'])->name('report.data');
 Route::get('/report/export', [ReportController::class, 'exportCSV'])->name('csv');
@@ -56,3 +62,11 @@ Route::post('/announcements/store', [AnnouncementController::class, 'store'])->n
 Route::get('/announcements/edit/{id}', [AnnouncementController::class, 'edit'])->name('editAnnouncement');
 Route::post('/announcements/update/{id}', [AnnouncementController::class, 'update'])->name('updateAnnouncement');
 Route::post('/announcements/delete/{id}', [AnnouncementController::class, 'destroy'])->name('deleteAnnouncement');
+
+// User Module
+Route::get('/users', [UserController::class, 'index'])->name('user');
+Route::get('/users/add', [UserController::class, 'create'])->name('addUser');
+Route::post('/users/store', [UserController::class, 'store'])->name('storeUser');
+Route::get('/users/edit', [UserController::class, 'edit'])->name('editUser');
+Route::post('/users/update', [UserController::class, 'update'])->name('updateUser');
+Route::delete('/users/delete', [UserController::class, 'destroy'])->name('deleteUser');

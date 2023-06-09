@@ -38,9 +38,9 @@
 
         <!-- Page Content -->
         <main>
-            <div class="flex h-screen">
+            <div class="flex min-h-screen">
                 @include('sidebar')
-                <div class="px-8 py-4 w-full overflow-auto">
+                <div class="px-8 py-4 w-full overflow-clip">
                     {{ $slot }}
         </main>
     </div>
