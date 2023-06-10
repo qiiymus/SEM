@@ -123,6 +123,11 @@ class PaymentController extends Controller
             }
         }
 
+        // If product quantity = 0, cannot add to cart
+        if ($product->product_quantity <= 0) {
+            return redirect()->route('cart')->with('error', 'Product out of stock!');
+        }
+
         $cart = new Cart();
         $cart->user_id = auth()->user()->id;
         $cart->product_id = $product->id;
@@ -185,6 +190,7 @@ class PaymentController extends Controller
             return redirect()->back()->with('error', 'Product not found.');
         }
 
+        // Check if item quantity is more than stock
         if ($cart->quantity >= $cart->product->product_quantity) {
             return redirect()->back()->with('error', 'Product quantity cannot more than stock!');
         } else {
