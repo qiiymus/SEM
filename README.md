@@ -1,6 +1,8 @@
 # PMMS
 SEP Project 2023
 
+[![Testing Laravel with MySQL](https://github.com/chanyuenfu/pmms/actions/workflows/laravel.yml/badge.svg?branch=main)](https://github.com/chanyuenfu/pmms/actions/workflows/laravel.yml)
+
 ## Step to run
 1. Clone this repository
 2. Open VSCode and open the folder
@@ -15,6 +17,12 @@ SEP Project 2023
 11. Use the following credentials to login
     - Admin
         - Username: admin@test
+        - Password: test
+    - Cashier
+        - Username: cashier@test
+        - Password: test
+    - Coordinator
+        - Username: coordinator@test
         - Password: test
 
 ## Integration Plan
