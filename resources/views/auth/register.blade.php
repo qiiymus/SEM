@@ -1,4 +1,11 @@
 <x-guest-layout>
+    {{-- Redirect to / --}}
+    <script>
+        // Pop out message
+        alert("Registration is disabled. Please contact the administrator for more information.");
+        // Redirect back to previous page
+        window.history.back();
+    </script>    
     <x-authentication-card>
         <x-slot name="logo">
             <x-authentication-card-logo />
@@ -7,7 +14,7 @@
         <x-validation-errors class="mb-4" />
 
         <form method="POST" action="{{ route('register') }}">
-            @csrf
+            {{-- @csrf --}}
 
             <div>
                 <x-label for="name" value="{{ __('Name') }}" />
