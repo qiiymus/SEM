@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -35,6 +36,31 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        // $product = new Product();
+        // Product::orderby('id')->get();
+        // $product->product_id = $request->product_id;
+        // $product->product_name = $request->name;
+        // $cost = $request->cost;
+        // $cost = number_format($cost, 2, '.', '');
+        // $product->product_cost = $cost;
+        // $product->product_price = $request->price;
+        // $price = $request->price;
+        // $price = number_format($price, 2, '.', '');
+        // $product->product_price = $price;
+        // $product->product_quantity = $request->quantity;
+        // $product->product_category = $request->category;
+        // $product->product_brand = $request->brand;
+        // $product->save();
+        // return redirect()->route('product')->with('success', 'Product added successfully');
+
+        // Error message if there is existing product id
+
+        $existingProduct = Product::where('product_id', $request->product_id)->first();
+
+        if ($existingProduct != null) {
+            return redirect()->route('addInventory')->with('error', 'Barcode already exists.');
+        }
+
         $product = new Product();
         Product::orderby('id')->get();
         $product->product_id = $request->product_id;
