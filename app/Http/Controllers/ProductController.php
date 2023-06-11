@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    /**
+     * Display a listing of products.
+     */
     public function index()
     {
         $products = Product::all();
@@ -20,7 +23,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for adding a new product.
      */
     public function create()
     {
@@ -28,7 +31,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly added product in storage.
      */
     public function store(Request $request)
     {
@@ -51,7 +54,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified product.
      */
     public function show(Product $product)
     {
@@ -59,7 +62,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified product.
      */
     public function edit($id)
     {
@@ -68,7 +71,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified product in databse.
      */
     public function update(Request $request, Product $product)
     {
@@ -90,7 +93,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified product from database.
      */
     public function destroy($id)
     {

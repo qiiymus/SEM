@@ -35,6 +35,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {{-- Retrieve added prodoct information --}}
                     @foreach ($products as $item)
                         <tr class="bg-gray-200 border-y-8 border-white">
                             <td class="py-2">{{ $item->product_id }}</td>
@@ -52,11 +53,13 @@
                                             d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                                     </svg>
                                 </a>
+                                {{-- Confirmation on product deletion --}}
                                 <script>
                                     function confirmDeleteProduct() {
                                         return confirm('Are you sure you want to delete the product?');
                                     }
                                 </script>
+                                {{-- Delete product --}}
                                 <form action="{{ route('deleteInventory', $item->id) }}" method="post">
                                     @csrf
                                     <button type="submit" onclick="return confirmDeleteProduct()">

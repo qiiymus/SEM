@@ -45,12 +45,15 @@ Route::middleware('role:cashier')->group(function () {
 });
 
 // Inventory Module
-Route::get('/products', [ProductController::class, 'index'])->name('product');
-Route::get('/products/add', [ProductController::class, 'create'])->name('addInventory');
-Route::post('/products/store', [ProductController::class, 'store'])->name('storeInventory');
-Route::get('/products/edit/{id}', [ProductController::class, 'edit'])->name('editInventory');
-Route::post('/products/update/{id}', [ProductController::class, 'update'])->name('updateInventory');
-Route::post('/products/delete/{id}', [ProductController::class, 'destroy'])->name('deleteInventory');
+//Only Admin can access this route
+Route::middleware('role:admin')->group(function () {
+    Route::get('/products', [ProductController::class, 'index'])->name('product')->middleware('role:admin');;
+    Route::get('/products/add', [ProductController::class, 'create'])->name('addInventory');
+    Route::post('/products/store', [ProductController::class, 'store'])->name('storeInventory');
+    Route::get('/products/edit/{id}', [ProductController::class, 'edit'])->name('editInventory');
+    Route::post('/products/update/{id}', [ProductController::class, 'update'])->name('updateInventory');
+    Route::post('/products/delete/{id}', [ProductController::class, 'destroy'])->name('deleteInventory');
+});
 
 //Report Module
 // Only Admin and Coordinator can access this route
