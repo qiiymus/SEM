@@ -1,6 +1,9 @@
 <x-app-layout>
     <div class="h-full mb-5">
-        <p class="text-xl mb-4">Inventory</p>
+        {{-- Title --}}
+        <div class="font-extrabold text-xl mt-2">
+            Inventory
+        </div>
         <div class="flex justify-end w-full mb-5 relative right-0">
             @include('components.searchbar')
             <a href="{{ route('addInventory') }}"
@@ -9,8 +12,14 @@
                 Add Product
             </a>
         </div>
+        {{-- Success message if product added successfully --}}
+        @if (session('success'))
+            <div class="bg-green-500 p-1 mx-1 mb-3 rounded-xl text-white text-center">
+                {{ session('success') }}
+            </div>
+        @endif
+        {{-- Return alert message if inventory stock is low --}}
         <div class="w-full mb-3">
-            {{-- Return alert message if inventory stock is low --}}
             @if ($alert != null && $alert->count() > 0)
                 @foreach ($alert as $item)
                     <div class="bg-red-500 p-1 m-1 rounded-xl text-white text-center">
@@ -20,21 +29,22 @@
             @endif
         </div>
 
-        <div class="bg-white border border-slate-300 rounded-xl w-full p-4 overflow-y-auto h-4/5 mb-5" style="max-height: 26rem">
+        <div class="bg-white border border-slate-300 rounded-xl w-full px-4 overflow-y-auto h-4/5 mb-5" style="max-height: 26rem">
             <table class="table-auto w-full text-center">
                 <thead class="sticky top-0 bg-white">
                     <tr>
-                        <th class="py-2">BARCODE</th>
-                        <th class="py-2">NAME</th>
-                        <th class="py-2">COST</th>
-                        <th class="py-2">PRICE</th>
-                        <th class="py-2">QUANTITY</th>
-                        <th class="py-2">CATEGORY</th>
-                        <th class="py-2">BRAND</th>
-                        <th class="py-2">ACTION</th>
+                        <th class="py-4">BARCODE</th>
+                        <th class="py-4">NAME</th>
+                        <th class="py-4">COST</th>
+                        <th class="py-4">PRICE</th>
+                        <th class="py-4">QUANTITY</th>
+                        <th class="py-4">CATEGORY</th>
+                        <th class="py-4">BRAND</th>
+                        <th class="py-4">ACTION</th>
                     </tr>
                 </thead>
                 <tbody>
+                    {{-- Retrieve added prodoct information --}}
                     @foreach ($products as $item)
                         <tr class="bg-gray-200 border-y-8 border-white">
                             <td class="py-2">{{ $item->product_id }}</td>
@@ -52,11 +62,13 @@
                                             d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                                     </svg>
                                 </a>
+                                {{-- Confirmation on product deletion --}}
                                 <script>
                                     function confirmDeleteProduct() {
                                         return confirm('Are you sure you want to delete the product?');
                                     }
                                 </script>
+                                {{-- Delete product --}}
                                 <form action="{{ route('deleteInventory', $item->id) }}" method="post">
                                     @csrf
                                     <button type="submit" onclick="return confirmDeleteProduct()">
