@@ -173,7 +173,9 @@ class ReportController extends Controller
                     foreach ($categories as $category) {
                         $quantity = Cart::whereHas('product', function ($query) use ($category) {
                             $query->where('product_category', $category);
-                        })->whereWeek('updated_at', '=', $currentWeek - $i)->sum('quantity');
+                        })->where('updated_at', '>=', Carbon::now()->startOfWeek()->subWeeks($i + 1))
+                            ->where('updated_at', '<', Carbon::now()->startOfWeek()->subWeeks($i)->endOfWeek())
+                            ->sum('quantity');
 
                         $weekData[$category] = $quantity;
                     }
