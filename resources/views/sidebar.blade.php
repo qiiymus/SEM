@@ -17,7 +17,9 @@
         </a>
 
         {{-- User List --}}
-        <a href="#">
+        {{-- Only Admin can access this module --}}
+        @if (Auth::user()->role == 'admin')
+        <a href="{{ route('user') }}">
             <x-nav-item>
                 <div class="self-center">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -31,8 +33,11 @@
                 </div>
             </x-nav-item>
         </a>
+        @endif
 
         {{-- Inventory --}}
+        {{-- Only Admin and Coordinator can access this module --}}
+        @if (Auth::user()->role == 'admin' || Auth::user()->role == 'coordinator')
         <a href="{{ route('product') }}">
             <x-nav-item>
                 <div class="self-center">
@@ -47,8 +52,11 @@
                 </div>
             </x-nav-item>
         </a>
+        @endif
 
         {{-- Payment --}}
+        {{-- Only Cashier can access this module --}}
+        @if (Auth::user()->role == 'cashier')
         <a href="{{ route('cart') }}">
             <x-nav-item>
                 <div class="self-center">
@@ -63,9 +71,12 @@
                 </div>
             </x-nav-item>
         </a>
+        @endif
 
         {{-- Report --}}
-        <a href="#">
+        {{-- Only Admin and Coordinator can access this module --}}
+        @if (Auth::user()->role == 'admin' || Auth::user()->role == 'coordinator')
+        <a href="{{ route('report') }}">
             <x-nav-item>
                 <div class="self-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -79,8 +90,11 @@
                 </div>
             </x-nav-item>
         </a>
+        @endif
 
         {{-- Duty Roster --}}
+        {{-- Only Admin and Cashier can access this module --}}
+        @if (Auth::user()->role == 'admin' || Auth::user()->role == 'cashier')
         <a href="{{ route('DutyRoster') }}">
             <x-nav-item>
                 <div class="self-center">
@@ -95,5 +109,6 @@
                 </div>
             </x-nav-item>
         </a>
+        @endif
     </ul>
 </nav>

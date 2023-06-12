@@ -2,13 +2,6 @@
     {{-- Define printable object --}}
     <style>
         @media print {
-            .print:last-child {
-                page-break-after: auto;
-            }
-
-            html {
-                height: auto;
-            }
 
             body *,
             #afterTable,
@@ -27,6 +20,14 @@
                 top: 0;
                 margin: 0;
                 padding: 0;
+            }
+
+            thead.sticky {
+                position: static;
+            }
+
+            thead.top-0 {
+                top: auto;
             }
 
             #buttonP {
