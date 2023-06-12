@@ -1,3 +1,171 @@
+<Style>
+    @blue: #626E7E;
+@light: lighten(@blue, 40%);
+@light2: darken(@light, 3%);
+
+table{
+  font-family:sans-serif;
+		  width: 100%;
+		  border-spacing: 0;
+	  	border-collapse: separate;
+		  table-layout: fixed;
+		  margin-bottom: 50px;
+
+		  thead{
+			    tr{
+				      th{
+        					background: @blue;
+					        color: @light;
+					        padding: 0.5em;
+					        overflow: hidden;
+
+        					&:first-child{
+						          border-radius:3px 0 0 0;
+					        } 
+					        &:last-child{
+						          border-radius:0 3px  0 0;
+					        }
+
+        					.day{
+						          display: block;
+						          font-size: 1.2em;
+						          border-radius: 50%;
+					          		width: 30px;
+					          	height: 30px;
+						          margin: 0 auto 5px;
+						          padding: 5px;
+          line-height: 1.8;
+
+            						&.active{
+							              background: @light;
+							              color: @blue;
+						            }
+					        }
+
+        					.short{
+						          display: none;
+					        }
+
+        					i{
+					          	vertical-align: middle;
+						          font-size: 2em;
+					        }
+				      }
+			    }
+		  }
+		  tbody{
+			    tr{
+				      background: @light;
+
+      					&:nth-child(odd){
+						        background:@light2;
+				      	}
+					      &:nth-child(4n+0){
+						        td{
+							          border-bottom:1px solid @blue;
+						        }
+					      }
+				      td{
+					        text-align: center;
+					        vertical-align: middle;
+					        border-left: 1px solid @blue;
+					        position: relative;
+					        height: 35px;
+					        cursor: pointer;
+
+        					&:last-child{
+						          border-right:1px solid @blue;
+					        }
+        &.hour{
+						          font-size: 2em;
+						          padding: 0;
+						          color: @blue;
+						          background:#fff;
+					          	border-bottom:1px solid @blue;
+						          border-collapse: separate;
+						          min-width: 100px;
+						          cursor: default;
+
+          						span{
+							            display: block;
+
+	          					}
+					        }  	
+				      }
+			    }
+		  }
+
+  		@media(max-width:60em){
+
+    			thead{
+				      tr{
+					        th{
+						          .long{
+							            display: none;
+						          }
+
+          						.short{
+							            display: block;
+						          }
+
+        					}
+				      }
+			    }
+
+    			tbody{
+				      tr{
+					        td{
+						          &.hour{
+							            span{
+								              transform:rotate(270deg);
+              -webkit-transform:rotate(270deg);
+              -moz-transform:rotate(270deg);
+							            }
+						          }
+        		}
+				      }
+			    }
+		  }
+
+	  	@media(max-width:27em){
+    			thead{
+				      tr{
+					        th{
+						          font-size: 65%;
+						          .day{
+							            display: block;
+							            font-size: 1.2em;
+							            border-radius: 50%;
+							            			width: 20px;
+							            height: 20px;
+							            margin: 0 auto 5px;
+							            padding: 5px;
+
+            							&.active{
+							              	background: @light;
+								              color: @blue;
+							            }
+						          }
+					        }
+				      }
+			    }
+			    tbody{
+				      tr{
+					        td{
+						          &.hour{
+							            font-size: 1.7em;
+							            span{
+							              transform:translateY(16px)rotate(270deg);
+              -webkit-transform:translateY(16px)rotate(270deg);
+              -moz-transform:translateY(16px)rotate(270deg);
+							            }
+						          }
+        	}
+				      }
+			    }
+		  }
+	}
+</Style>
 <x-app-layout>
     <div class="h-full">
         <p class="text-xl mb-4">Duty Roster</p>
@@ -9,7 +177,7 @@
                 Add Duty
             </a>
         </div>
-        <div class="bg-white border border-slate-300 rounded-xl w-full p-4 overflow-y-auto h-4/5">
+        {{-- <div class="bg-white border border-slate-300 rounded-xl w-full p-4 overflow-y-auto h-4/5">
             <table class="table-auto w-full text-center">
                 <thead>
                     <tr>
@@ -65,6 +233,364 @@
                     @endforeach
                 </tbody>
             </table>
-        </div>
+        </div> --}}
+
+{{-- <table>
+    <thead>
+        <tr>
+            <th>Event Name</th>
+            <th>Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($dutyRoster as $event)
+            <tr>
+                <td>{{ $event->event_name }}</td>
+                <td>{{ $event->start_time }} - {{ $event->end_time }}</td>
+            </tr>
+        @endforeach
+    </tbody>
+</table> --}}
+@foreach ($dutyRoster as $event)
+<tr class="{{ ($event->start_time == $start_time && $event->end_time == $endHour) ? 'highlighted-row' : '' }}">
+    <td>{{ $event->user_name }}</td>
+    <td>{{ $event->start_time }}:00 - {{ $event->end_time }}:00</td>
+</tr>
+@endforeach
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>
+        <span class="day">1</span>
+        <span class="long">Monday</span>
+        <span class="short">Mon</span>
+      </th>
+      <th>
+        <span class="day">2</span>
+        <span class="long">Tuesday</span>
+        <span class="short">Tue</span>
+      </th>
+      <th>
+        <span class="day">3</span>
+        <span class="long">Wendsday</span>
+        <span class="short">We</span>
+      </th>
+      <th>
+        <span class="day">4</span>
+        <span class="long">Thursday</span>
+        <span class="short">Thur</span>
+      </th>
+      <th>
+        <span class="day active">5</span>
+        <span class="long">Friday</span>
+        <span class="short">Fri</span>
+      </th>
+      <th>
+        <span class="day">6</span>
+        <span class="long">Saturday</span>
+        <span class="short">Sat</span>
+      </th>
+      <th>
+        <span class="day">7</span>
+        <span class="long">Sunday</span>
+        <span class="short">Sun</span>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="hour" rowspan="4"><span>1:00</span></td>
+     
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td class="hour" rowspan="4"><span>2:00</span></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    
+    <tr>
+      <td class="hour" rowspan="4"><span>3:00</span></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td class="hour" rowspan="4"><span>4:00</span></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td class="hour" rowspan="4"><span>5:00</span></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td class="hour" rowspan="4"><span>6:00</span></td>
+      <td onclick="alert('test')"></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td class="hour" rowspan="4"><span>7:00</span></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td class="hour" rowspan="4"><span>8:00</span></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
     </div>
 </x-app-layout>
