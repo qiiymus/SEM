@@ -1,6 +1,8 @@
 <x-app-layout>
     <div class="h-full">
-        <p class="text-xl mb-4">Announcement</p>
+        <div class="font-extrabold text-xl mt-2">
+            Announcements
+        </div>
         <div class="flex justify-end w-full mb-5 relative right-0">
             @include('components.searchbar')
             <a href="{{ route('addAnnouncement') }}"
@@ -23,8 +25,8 @@
                     @foreach ($announcements as $announcement)
                         <tr class="bg-gray-200 border-y-8 border-white">
                             <td class="py-2 px-4">{{ $announcement->id }}</td>
-                            <td class="py-2 px-4" style="text-align: left">{{ $announcement->title }}</td>
-                            <td class="py-2 px-4" style="text-align: left">{{ $announcement->description }}</td>
+                            <td class="py-2 px-4 text-center">{{ $announcement->title }}</td>
+                            <td class="py-2 px-4 text-center">{{ $announcement->description }}</td>
                             <td class="flex justify-center">
                                 <a href="{{ route('editAnnouncement', $announcement->id) }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-emerald-400 m-2"

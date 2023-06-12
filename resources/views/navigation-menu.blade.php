@@ -5,7 +5,7 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center p-1">
-                    <a href="{{ route('dashboard') }}">
+                    <a href="{{ route('announcement') }}">
                         <img src="{{ asset('images/petakom-logo.png') }}" alt="PMMS" width="80" height="80" class="p-1"/>
                     </a>
                     <p>PMMS</p>
@@ -153,7 +153,7 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+            <x-responsive-nav-link href="{{ route('announcement') }}" :active="request()->routeIs('announcement')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
         </div>

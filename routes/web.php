@@ -93,3 +93,6 @@ Route::middleware('role:admin')->group(function () {
     Route::post('/users/update', [UserController::class, 'update'])->name('updateUser');
     Route::delete('/users/delete', [UserController::class, 'destroy'])->name('deleteUser');
 });
+
+// All user can access this route
+Route::get('/announcementList', [AnnouncementController::class, 'announcementList'])->name('announcementList');
