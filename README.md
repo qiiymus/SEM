@@ -30,5 +30,5 @@ SEP Project 2023
 - [x] Inventory
 - [x] Payment
 - [x] Report
-- [ ] Duty Roster
+- [x] Duty Roster
 - [x] Announcement

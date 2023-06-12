@@ -55,9 +55,9 @@ Route::middleware('role:cashier')->group(function () {
 });
 
 // Inventory Module
-//Only Admin can access this route
-Route::middleware('role:admin')->group(function () {
-    Route::get('/products', [ProductController::class, 'index'])->name('product')->middleware('role:admin');;
+//Only Admin and Coordinator can access this route
+Route::middleware('role:admin,coordinator')->group(function () {
+    Route::get('/products', [ProductController::class, 'index'])->name('product');
     Route::get('/products/add', [ProductController::class, 'create'])->name('addInventory');
     Route::post('/products/store', [ProductController::class, 'store'])->name('storeInventory');
     Route::get('/products/edit/{id}', [ProductController::class, 'edit'])->name('editInventory');
@@ -68,7 +68,7 @@ Route::middleware('role:admin')->group(function () {
 //Report Module
 // Only Admin and Coordinator can access this route
 Route::middleware('role:admin,coordinator')->group(function () {
-    Route::get('/report', [ReportController::class, 'index'])->name('report')->middleware('role:admin');
+    Route::get('/report', [ReportController::class, 'index'])->name('report');
     Route::post('/report', [ReportController::class, 'index'])->name('report');
     Route::get('report/data/{range}', [ReportController::class, 'getData'])->name('report.data');
     Route::get('/report/export', [ReportController::class, 'exportCSV'])->name('csv');

@@ -19,7 +19,7 @@ class CartFactory extends Factory
         return [
             'product_id' => $this->faker->unique()->numberBetween(1, 8),
             'payment_id' => null,
-            'user_id' => 1,
+            'user_id' => 2,
             'quantity' => $this->faker->numberBetween(1, 10),
         ];
     }
