@@ -13,7 +13,6 @@
                         <th class="py-2">ID</th>
                         <th class="py-2">TITLE</th>
                         <th class="py-2">DESCRIPTION</th>
-                        <th class="py-2">ACTION</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -22,7 +21,6 @@
                             <td class="py-2 px-4">{{ $announcement->id }}</td>
                             <td class="py-2 px-4 text-center">{{ $announcement->title }}</td>
                             <td class="py-2 px-4 text-center">{{ $announcement->description }}</td>
-                            <td class="flex justify-center">
                             </td>
                         </tr>
                     @endforeach
