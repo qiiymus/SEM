@@ -5,43 +5,29 @@
             @include('components.searchbar')
         </div>
         <div class="bg-white border border-slate-300 rounded-xl w-full p-3">
-            <form action="{{ route('updateDuty', $duty_rosters->id) }}" method="post">
+            <form action="{{ route('updateDuty', $dutyRoster->id) }}" method="post">
                 @csrf
                 <table class="rounded-xl px-4 w-3/6">
                     <tbody >
                         <tr>
                             <td class="px-4 py-2"><label>User Id</label></td>
-                            <td class="px-4 py-2"><input type="text" name="user_id" value="{{ $duty_rosters->user_id }}" class="form-control rounded-xl w-2/5 bg-gray-200 border border-slate-400" required></td>
-                        </tr>
-                        <tr>
-                            <td class="px-4 py-2"><label>User Name</label></td>
-                            <td class="px-4 py-2"><input type="text" name="user_name" value="{{ $duty_rosters->user_name }}" class="form-control rounded-xl w-2/5 bg-gray-200 border border-slate-400" required></td>
+                            <td class="px-4 py-2"><input type="text" name="user_id" value="{{ $dutyRoster->user_id }}" class="form-control rounded-xl w-2/5 bg-gray-200 border border-slate-400" required></td>
                         </tr>
                         <tr>
                             <td class="px-4 py-2"><label>Week</label></td>
-                            <td class="px-4 py-2"><input type="text" name="week" value="{{ $duty_rosters->week }}" class="form-control rounded-xl w-full bg-gray-200 border border-slate-400" required></td>
+                            <td class="px-4 py-2"><input type="text" name="week" value="{{ $dutyRoster->week }}" class="form-control rounded-xl w-full bg-gray-200 border border-slate-400" required></td>
                         </tr>
                         <tr>
                             <td class="px-4 py-2"><label>Date</label></td>
-                            <td class="px-4 py-2"><input type="date" name="date" value="{{ $duty_rosters->date }}" class="form-control rounded-xl bg-gray-200 border border-slate-400" step=".01" required></td>
-                        </tr>
-                        <tr>
-                            <td class="px-4 py-2"><label>Status</label></td>
-                            <td class="px-4 py-2">
-                                <select name="status" id="" value="Choose Status" class="form-control rounded-xl bg-gray-200 border border-slate-400" required>
-                                    <option name="status" value="Not Started">Not Started</option>
-                                    <option name="status" value="In Progress">In Progress</option>
-                                    <option name="status" value="Done">Done</option>
-                                </select>
-                            </td>
+                            <td class="px-4 py-2"><input type="date" name="date" value="{{ $dutyRoster->date }}" class="form-control rounded-xl bg-gray-200 border border-slate-400" step=".01" required></td>
                         </tr>
                         <tr>
                             <td class="px-4 py-2"><label>Start Time</label></td>
-                            <td class="px-4 py-2"><input type="time" name="start_time" value="{{ $duty_rosters->start_time }}" class="form-control rounded-xl w-2/6 bg-gray-200 border border-slate-400" required></td>
+                            <td class="px-4 py-2"><input type="time" name="start_time" value="{{ $dutyRoster->start_time }}" class="form-control rounded-xl w-2/6 bg-gray-200 border border-slate-400" required></td>
                         </tr>
                         <tr>
                             <td class="px-4 py-2"><label>End Time</label></td>
-                            <td class="px-4 py-2"><input type="time" name="end_time" value="{{ $duty_rosters->end_time }}" class="form-control rounded-xl w-2/6 bg-gray-200 border border-slate-400" required></td>
+                            <td class="px-4 py-2"><input type="time" name="end_time" value="{{ $dutyRoster->end_time }}" class="form-control rounded-xl w-2/6 bg-gray-200 border border-slate-400" required></td>
                         </tr>
                     </tbody>
                 </table>

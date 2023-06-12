@@ -30,20 +30,13 @@ class DutyRosterController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $dutyRoster = new DutyRoster();
-        DutyRoster::orderby('id')->get();
         $dutyRoster->user_id = $request->user_id;
-        $dutyRoster->user_name = $request->user_name;
         $dutyRoster->week = $request->week;
         $dutyRoster->date = $request->date;
-        $dutyRoster->status = $request->status;
+        // $dutyRoster->status = $request->status;
         $dutyRoster->start_time = $request->start_time;
         $dutyRoster->end_time = $request->end_time ;
-        // $dutyRoster->created_at = $request->created_at;
-        // $dutyRoster->updated_at = $request->updated_at;
-
-
         $dutyRoster->save();
         return redirect()->route('DutyRoster')->with('success', 'Duty added successfully');
     }
@@ -61,9 +54,8 @@ class DutyRosterController extends Controller
      */
     public function edit($id)
     {
-        //
-        $duty_rosters = DutyRoster::find($id);
-        return view('DutyRoster.updateDuty', compact('duty_rosters'));
+        $dutyRoster = DutyRoster::find($id);
+        return view('DutyRoster.updateDuty', compact('dutyRoster'));
     }
 
     /**
@@ -74,18 +66,10 @@ class DutyRosterController extends Controller
         //
 
         $dutyRoster = DutyRoster::find($request->id);
-
-        $dutyRoster->user_id = $request->user_id;
-        $dutyRoster->user_name = $request->user_name;
         $dutyRoster->week = $request->week;
         $dutyRoster->date = $request->date;
-        $dutyRoster->status = $request->status;
         $dutyRoster->start_time = $request->start_time;
         $dutyRoster->end_time = $request->end_time ;
-        // $dutyRoster->created_at = $request->created_at;
-        // $dutyRoster->updated_at = $request->updated_at ;
-
-
         $dutyRoster->save();
         return redirect()->route('DutyRoster')->with('success', 'Duty updated successfully');
     }

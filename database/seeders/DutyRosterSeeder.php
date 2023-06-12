@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\DutyRoster;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class DutyRosterSeeder extends Seeder
 {
@@ -13,7 +14,6 @@ class DutyRosterSeeder extends Seeder
     public function run(): void
     {
 
-        DutyRoster::factory()->count(10)->create();
-        //
+        DutyRoster::factory(8)->create();
     }
 }

@@ -28,28 +28,6 @@ Route::post('/dutyRoster/store', [DutyRosterController::class, 'store'])->name('
 Route::get('/dutyRoster/edit/{id}', [DutyRosterController::class, 'edit'])->name('editDuty');
 Route::post('/dutyRoster/update/{id}', [DutyRosterController::class, 'update'])->name('updateDuty');
 Route::post('/dutyRoster/delete/{id}', [DutyRosterController::class, 'destroy'])->name('deleteDuty');
-use Illuminate\Support\Facades\DB;
-
-Route::get('/', function () {
-    // Get the current hour
-    $currentHour = date('H'); // 24-hour format (e.g., 13:00)
-
-    // Calculate the hour range for the table rows
-    $startHour = $currentHour;
-    $endHour = $currentHour + 1;
-
-    // Query to retrieve data based on the hour range
-    $events = DB::table('DutyRoster')
-                ->where('start_hour', $startHour)
-                ->where('end_hour', $endHour)
-                ->get();
-
-    return view('viewDuty', [
-        'events' => $events,
-        'startHour' => $startHour,
-        'endHour' => $endHour
-    ]);
-});
 
 // Payment Module
 // Cart
