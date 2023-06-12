@@ -1,6 +1,9 @@
 <x-app-layout>
     <div class="h-full mb-5">
-        <p class="text-xl mb-4">Inventory</p>
+        {{-- Title --}}
+        <div class="font-extrabold text-xl mt-2">
+            Inventory
+        </div>
         <div class="flex justify-end w-full mb-5 relative right-0">
             @include('components.searchbar')
             <a href="{{ route('addInventory') }}"
