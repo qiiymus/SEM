@@ -9,7 +9,6 @@
         border-spacing: 0;
         border-collapse: separate;
         table-layout: fixed;
-        margin-bottom: 50px;
 
         thead {
             tr {
@@ -264,20 +263,21 @@
                 <td>{{ $event->start_time }}:00 - {{ $event->end_time }}:00</td>
             </tr>
         @endforeach --}}
+    <div  class="bg-white border border-slate-300 rounded-xl w-full px-4 overflow-y-auto h-4/5 mb-5" style="max-height: 26rem">
         <table class="table-auto w-full text-center">
-            <thead class="border border-collapse border-slate-400">
+            <thead class="sticky top-0 bg-white">
                 <tr>
-                    <th class="p-2">Cashier ID</th>
-                    <th class="p-2">Week</th>
-                    <th class="p-2">Start Time</th>
-                    <th class="p-2">End Time</th>
-                    <th class="p-2">Action</th>
+                    <th class="p-4">Cashier ID</th>
+                    <th class="p-4">Week</th>
+                    <th class="p-4">Start Time</th>
+                    <th class="p-4">End Time</th>
+                    <th class="p-4">Action</th>
                 </tr>
             </thead>
-            <tbody class="border border-collapse border-slate-400">
+            <tbody>
                 {{-- Dispaly all added duty roster --}}
                 @foreach ($dutyRoster as $item)
-                  <tr>
+                  <tr class="bg-gray-200 border-y-8 border-white">
                     <td class="py-2">{{ $item->user_id }}</td>
                     <td class="py-2">{{ $item->week }}</td>
                     <td class="py-2">{{ $item->start_time }}</td>

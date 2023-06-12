@@ -13,8 +13,15 @@
                         </tr>
                         <tr>
                             <td class="px-4 py-2"><label>Week</label></td>
-                            <td class="px-4 py-2"><input type="text" name="week" value=""
-                                    class="form-control rounded-xl w-2/5 bg-gray-200 border border-slate-400"></td>
+                            <td class="px-4 py-2">
+                                <select name="week" class="form-control rounded-xl w-2/5 bg-gray-200 border border-slate-400">
+                                    <option value=""></option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                </select>
+                            </td>
                         </tr>
                         <tr>
                             <td class="px-4 py-2"><label>Date</label></td>
