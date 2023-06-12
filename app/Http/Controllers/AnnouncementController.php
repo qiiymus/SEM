@@ -13,6 +13,12 @@ class AnnouncementController extends Controller
         return view('announcements.viewAnnouncement')->with('announcements', $announcements);
     }
 
+    public function announcementList()
+    {
+        $announcements = Announcement::all();
+        return view('announcements.announcementList')->with('announcements', $announcements);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

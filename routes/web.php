@@ -22,9 +22,7 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified'
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [AnnouncementController::class, 'index'])->name('announcement');
 });
 
 // Payment Module
@@ -56,12 +54,13 @@ Route::get('report/data/{range}', [ReportController::class, 'getData'])->name('r
 Route::get('/report/export', [ReportController::class, 'exportCSV'])->name('csv');
 
 // Announcement Module
-Route::get('/dashboard/announcements', [AnnouncementController::class, 'index'])->name('announcement');
+Route::get('/dashboard', [AnnouncementController::class, 'index'])->name('announcement');
 Route::get('/announcements/add', [AnnouncementController::class, 'create'])->name('addAnnouncement');
 Route::post('/announcements/store', [AnnouncementController::class, 'store'])->name('storeAnnouncement');
 Route::get('/announcements/edit/{id}', [AnnouncementController::class, 'edit'])->name('editAnnouncement');
 Route::post('/announcements/update/{id}', [AnnouncementController::class, 'update'])->name('updateAnnouncement');
 Route::post('/announcements/delete/{id}', [AnnouncementController::class, 'destroy'])->name('deleteAnnouncement');
+Route::get('/announcementList', [AnnouncementController::class, 'announcementList'])->name('announcementList');
 
 // User Module
 Route::get('/users', [UserController::class, 'index'])->name('user');
