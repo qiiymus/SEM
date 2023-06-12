@@ -265,22 +265,22 @@
             <div class="font-bold text-lg my-2">
                 Product Sales
             </div>
-            <div class="bg-white border border-slate-300 rounded-xl w-full p-4 overflow-y-auto h-4/5 max-h-80">
+            <div class="bg-white border border-slate-300 rounded-xl w-full px-4 overflow-y-auto h-4/5 max-h-80 mb-5">
                 <table class="table-auto w-full text-center">
                     <thead class="sticky top-0 bg-white">
                         <tr>
-                            <th class="py-2">ITEM ID</th>
-                            <th class="py-2">BRAND</th>
-                            <th class="py-2">CATEGORY</th>
-                            <th class="py-2">PRICE</th>
-                            <th class="py-2">COST</th>
-                            <th class="py-2">QUANTITY SOLD</th>
-                            <th class="py-2">TOTAL SALES</th>
+                            <th class="py-4">ITEM ID</th>
+                            <th class="py-4">BRAND</th>
+                            <th class="py-4">CATEGORY</th>
+                            <th class="py-4">PRICE</th>
+                            <th class="py-4">COST</th>
+                            <th class="py-4">QUANTITY SOLD</th>
+                            <th class="py-4">TOTAL SALES</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($carts as $cart)
-                            <tr class="border-solid border-2 border-[#a1a1aa]">
+                            <tr class="bg-gray-200 border-y-8 border-white">
                                 <td class="py-2">{{ $cart->product_id }}</td>
                                 <td class="py-2">{{ $cart->product_name }}</td>
                                 <td class="py-2">{{ $cart->product_category }}</td>

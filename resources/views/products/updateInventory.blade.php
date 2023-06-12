@@ -1,6 +1,9 @@
 <x-app-layout>
     <div class="w-full">
-        <p class="text-xl mb-4">Edit Product</p>
+        {{-- Title --}}
+        <div class="font-extrabold text-xl mt-2">
+            Edit Product
+        </div>
         <div class="flex justify-end w-full mb-5 relative right-0">
             @include('components.searchbar')
         </div>
