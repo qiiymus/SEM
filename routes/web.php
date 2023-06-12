@@ -7,6 +7,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\DutyRosterController;
 
 // Change this to change the default page
 Route::get('/', function () {
@@ -17,6 +18,7 @@ Route::get('/', function () {
     }
 });
 
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -26,6 +28,14 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
+// Duty Roster  Module
+Route::get('/dutyRoster', [DutyRosterController::class, 'index'])->name('DutyRoster');
+Route::get('/dutyRoster/add', [DutyRosterController::class, 'create'])->name('addDuty');
+Route::post('/dutyRoster/store', [DutyRosterController::class, 'store'])->name('storeDuty');
+Route::get('/dutyRoster/edit/{id}', [DutyRosterController::class, 'edit'])->name('editDuty');
+Route::post('/dutyRoster/update/{id}', [DutyRosterController::class, 'update'])->name('updateDuty');
+Route::post('/dutyRoster/delete/{id}', [DutyRosterController::class, 'destroy'])->name('deleteDuty');
 
 // Payment Module
 // Only Cashier can access this route
