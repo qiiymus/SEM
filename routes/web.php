@@ -11,7 +11,12 @@ use App\Http\Controllers\AnnouncementController;
 // Change this to change the default page
 Route::get('/', function () {
     if (Auth::check()) {
-        return redirect('/dashboard');
+        if (Auth::user()->role != 'admin') {
+            return redirect('/dashboard');
+        }
+        else {
+            return redirect("/dashboard/announcements");
+        }
     } else {
         return redirect()->route('login');
     }
@@ -22,7 +27,14 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified'
 ])->group(function () {
-    Route::get('/dashboard', [AnnouncementController::class, 'index'])->name('announcement');
+    Route::get('/dashboard', function () {
+        if (Auth::user()->role != 'admin') {
+            return view('dashboard');
+        }
+        else {
+            return redirect("/dashboard/announcements");
+        }
+    })->name('dashboard');
 });
 
 // Payment Module
