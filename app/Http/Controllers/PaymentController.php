@@ -109,13 +109,23 @@ class PaymentController extends Controller
         // dd($cartExist);
         
         if ($cartExist) {
-            $cartExist->quantity++;
+            // Check if item quantity is more than stock
+            if ($cartExist->quantity >= $product->product_quantity) {
+                return redirect()->route('cart')->with('error', 'Product quantity cannot more than stock!');
+            } else {
+                $cartExist->quantity++;
+            }
             // dd($cartExist->quantity, $cartExist->save());
             if ($cartExist->save()) {
                 return redirect()->route('cart')->with('success', 'Product added to cart successfully!');
             } else {
                 return redirect()->route('cart')->with('error', 'Failed to add product to cart!');
             }
+        }
+
+        // If product quantity = 0, cannot add to cart
+        if ($product->product_quantity <= 0) {
+            return redirect()->route('cart')->with('error', 'Product out of stock!');
         }
 
         $cart = new Cart();
@@ -180,7 +190,12 @@ class PaymentController extends Controller
             return redirect()->back()->with('error', 'Product not found.');
         }
 
-        $cart->quantity++;
+        // Check if item quantity is more than stock
+        if ($cart->quantity >= $cart->product->product_quantity) {
+            return redirect()->back()->with('error', 'Product quantity cannot more than stock!');
+        } else {
+            $cart->quantity++;
+        }
 
         if ($cart->save()) {
             return redirect()->back()->with('success', 'Quantity updated successfully.');

@@ -17,7 +17,6 @@ class ReportController extends Controller
     {
         $currentDate = Carbon::now()->format('l, d F Y');
 
-        //join table cart
         $totalQuantity = 0;
         $carts = Cart::join('products', 'products.id', '=', 'carts.product_id')
             ->select('carts.id', 'products.product_id', 'products.product_name', 'products.product_price', 'products.product_category', 'products.product_cost', 'carts.quantity', 'carts.created_at', 'carts.payment_id')
@@ -29,8 +28,6 @@ class ReportController extends Controller
             $cart->profit = ($cart->product_price * $cart->quantity) - ($cart->product_cost * $cart->quantity);
         }
 
-        // dd($carts);
-
         $products = Product::select(
             'products.product_id',
             'products.product_brand',
@@ -39,14 +36,10 @@ class ReportController extends Controller
             'products.product_cost',
             'products.product_quantity',
             DB::raw('COALESCE(SUM(carts.quantity), 0) as total_quantity_sold'),
-            DB::raw('(COALESCE(SUM(carts.quantity), 0) * products.product_price) - (COALESCE(SUM(carts.quantity), 0) * products.product_cost) as profit'),
-
-        )->leftJoin('carts', function ($join) {
+            DB::raw('(COALESCE(SUM(carts.quantity), 0) * products.product_price) - (COALESCE(SUM(carts.quantity), 0) * products.product_cost) as profit')
+        )->leftJoin('carts', function ($join) use ($request) {
             $join->on('products.id', '=', 'carts.product_id')
-                ->whereBetween('carts.updated_at', [
-                    Carbon::now()->startOfWeek(),
-                    Carbon::now()->endOfWeek()
-                ]);
+                ->whereBetween('carts.updated_at', $this->getDateRange($request['range']));
         })
             ->groupBy(
                 'products.product_id',
@@ -64,14 +57,40 @@ class ReportController extends Controller
             $range = 'weekly';
         }
 
-        // dd($products);
-
         return view('report.report')->with([
             'currentDate' => $currentDate,
             'carts' => $carts,
             'products' => $products,
             'range' => $range,
         ]);
+    }
+
+    private function getDateRange($range)
+    {
+        $now = Carbon::now();
+
+        switch ($range) {
+            case 'weekly':
+                return [
+                    $now->startOfWeek(),
+                    $now->endOfWeek(),
+                ];
+            case 'monthly':
+                return [
+                    $now->startOfMonth(),
+                    $now->endOfMonth(),
+                ];
+            case 'yearly':
+                return [
+                    $now->startOfYear(),
+                    $now->endOfYear(),
+                ];
+            default:
+                return [
+                    $now->startOfWeek(),
+                    $now->endOfWeek(),
+                ];
+        }
     }
 
 
@@ -144,22 +163,19 @@ class ReportController extends Controller
         switch ($range) {
             case 'weekly':
                 $categories = Product::pluck('product_category')->unique();
-                $weeks = [
-                    'Week 1' => [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()],
-                    'Week 2' => [Carbon::now()->startOfWeek()->subWeek(), Carbon::now()->endOfWeek()->subWeek()],
-                    'Week 3' => [Carbon::now()->startOfWeek()->subWeeks(2), Carbon::now()->endOfWeek()->subWeeks(2)],
-                    'Week 4' => [Carbon::now()->startOfWeek()->subWeeks(3), Carbon::now()->endOfWeek()->subWeeks(3)],
-                ];
+                $currentWeek = Carbon::now()->weekOfYear;
 
-                foreach ($weeks as $week => $weekRange) {
+                for ($i = 0; $i < 4; $i++) {
                     $weekData = [
-                        'week' => $week,
+                        'week' => 'Week ' . ($i + 1),
                     ];
 
                     foreach ($categories as $category) {
                         $quantity = Cart::whereHas('product', function ($query) use ($category) {
                             $query->where('product_category', $category);
-                        })->whereBetween('updated_at', $weekRange)->sum('quantity');
+                        })->where('updated_at', '>=', Carbon::now()->startOfWeek()->subWeeks($i + 1))
+                            ->where('updated_at', '<', Carbon::now()->startOfWeek()->subWeeks($i)->endOfWeek())
+                            ->sum('quantity');
 
                         $weekData[$category] = $quantity;
                     }
@@ -168,33 +184,20 @@ class ReportController extends Controller
                 }
 
                 break;
+
             case 'monthly':
                 $categories = Product::pluck('product_category')->unique();
-                $months = [
-                    'Jan' => [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()],
-                    'Feb' => [Carbon::now()->startOfMonth()->subMonth(), Carbon::now()->endOfMonth()->subMonth()],
-                    'Mar' => [Carbon::now()->startOfMonth()->subMonths(2), Carbon::now()->endOfMonth()->subMonths(2)],
-                    'Apr' => [Carbon::now()->startOfMonth()->subMonths(3), Carbon::now()->endOfMonth()->subMonths(3)],
-                    'May' => [Carbon::now()->startOfMonth()->subMonths(4), Carbon::now()->endOfMonth()->subMonths(4)],
-                    'Jun' => [Carbon::now()->startOfMonth()->subMonths(5), Carbon::now()->endOfMonth()->subMonths(5)],
-                    'Jul' => [Carbon::now()->startOfMonth()->subMonths(6), Carbon::now()->endOfMonth()->subMonths(6)],
-                    'Aug' => [Carbon::now()->startOfMonth()->subMonths(7), Carbon::now()->endOfMonth()->subMonths(7)],
-                    'Sep' => [Carbon::now()->startOfMonth()->subMonths(8), Carbon::now()->endOfMonth()->subMonths(8)],
-                    'Oct' => [Carbon::now()->startOfMonth()->subMonths(9), Carbon::now()->endOfMonth()->subMonths(9)],
-                    'Nov' => [Carbon::now()->startOfMonth()->subMonths(10), Carbon::now()->endOfMonth()->subMonths(10)],
-                    'Dec' => [Carbon::now()->startOfMonth()->subMonths(11), Carbon::now()->endOfMonth()->subMonths(11)],
+                $currentMonth = Carbon::now()->month;
 
-                ];
-
-                foreach ($months as $month => $monthRange) {
+                for ($i = 0; $i < 12; $i++) {
                     $monthData = [
-                        'month' => $month,
+                        'month' => Carbon::now()->subMonths($i)->format('M'),
                     ];
 
                     foreach ($categories as $category) {
                         $quantity = Cart::whereHas('product', function ($query) use ($category) {
                             $query->where('product_category', $category);
-                        })->whereBetween('updated_at', $monthRange)->sum('quantity');
+                        })->whereMonth('updated_at', '=', $currentMonth - $i)->sum('quantity');
 
                         $monthData[$category] = $quantity;
                     }
@@ -202,29 +205,21 @@ class ReportController extends Controller
                     $productData[] = $monthData;
                 }
 
-                Log::debug('Product Data:', $productData);
-
-
                 break;
 
             case 'yearly':
                 $categories = Product::pluck('product_category')->unique();
-                $years = [
-                    'Year 1' => [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()],
-                    'Year 2' => [Carbon::now()->startOfYear()->subYear(), Carbon::now()->endOfYear()->subYear()],
-                    'Year 3' => [Carbon::now()->startOfYear()->subYears(2), Carbon::now()->endOfYear()->subYears(2)],
-                    // Add more years as needed
-                ];
+                $currentYear = Carbon::now()->year;
 
-                foreach ($years as $year => $yearRange) {
+                for ($i = 0; $i < 3; $i++) {
                     $yearData = [
-                        'year' => $year,
+                        'year' => 'Year ' . ($i + 1),
                     ];
 
                     foreach ($categories as $category) {
                         $quantity = Cart::whereHas('product', function ($query) use ($category) {
                             $query->where('product_category', $category);
-                        })->whereBetween('updated_at', $yearRange)->sum('quantity');
+                        })->whereYear('updated_at', '=', $currentYear - $i)->sum('quantity');
 
                         $yearData[$category] = $quantity;
                     }

@@ -132,6 +132,15 @@ class UserController extends Controller
         $id = $request->id;
         // delete user
         $user = User::find($id);
+
+        // if the current user is deleting his/her own account, logout and delete account
+        if ($id == auth()->user()->id) {
+            $user->delete();
+            Auth::logout();
+            session()->flush();
+            return redirect('/login')->with('status', 'User deleted successfully');
+        }
+
         if ($user->delete()) {
             return redirect()->route('user')->with('success', 'User deleted successfully');
         } else {
