@@ -12,7 +12,12 @@ use App\Http\Controllers\DutyRosterController;
 // Change this to change the default page
 Route::get('/', function () {
     if (Auth::check()) {
-        return redirect('/dashboard');
+        if (Auth::user()->role != 'admin') {
+            return redirect('/dashboard');
+        }
+        else {
+            return redirect("/dashboard/announcements");
+        }
     } else {
         return redirect()->route('login');
     }
@@ -25,7 +30,12 @@ Route::middleware([
     'verified'
 ])->group(function () {
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        if (Auth::user()->role != 'admin') {
+            return view('dashboard');
+        }
+        else {
+            return redirect("/dashboard/announcements");
+        }
     })->name('dashboard');
 });
 
