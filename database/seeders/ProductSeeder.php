@@ -1,3 +1,6 @@
+// Seeder for the Product model
+// database/seeders/ProductSeeder.php
+
 <?php
 
 namespace Database\Seeders;

@@ -1,3 +1,5 @@
+// database/factories/ProductFactory.php
+
 <?php
 
 namespace Database\Factories;
