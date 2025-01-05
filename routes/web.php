@@ -60,6 +60,7 @@ Route::middleware('role:cashier')->group(function () {
     // Payment
     Route::get('/cart/checkout', [PaymentController::class, 'paymentIndex'])->name('payment.pay');
     Route::post('/cart/checkout', [PaymentController::class, 'storePayment'])->name('payment.store');
+    Route::post('/cart/checkout/voucher', [PaymentController::class, 'applyVoucher'])->name('payment.voucher');
     // Change
     Route::get('/change/{payment}', [PaymentController::class, 'changeIndex'])->name('payment.change');
 });
