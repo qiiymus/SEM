@@ -34,49 +34,48 @@ class ProductController extends Controller
     /**
      * Store a newly added product in storage.
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        // $product = new Product();
-        // Product::orderby('id')->get();
-        // $product->product_id = $request->product_id;
-        // $product->product_name = $request->name;
-        // $cost = $request->cost;
-        // $cost = number_format($cost, 2, '.', '');
-        // $product->product_cost = $cost;
-        // $product->product_price = $request->price;
-        // $price = $request->price;
-        // $price = number_format($price, 2, '.', '');
-        // $product->product_price = $price;
-        // $product->product_quantity = $request->quantity;
-        // $product->product_category = $request->category;
-        // $product->product_brand = $request->brand;
-        // $product->save();
-        // return redirect()->route('product')->with('success', 'Product added successfully');
-
-        // Error message if there is existing product id
-
-        $existingProduct = Product::where('product_id', $request->product_id)->first();
-
-        if ($existingProduct != null) {
-            return redirect()->route('addInventory')->with('error', 'Barcode already exists.');
+        try {
+            $validated = $request->validated();
+            
+            $product = new Product();
+            $product->product_id = $validated['product_id'];
+            $product->product_name = $validated['name'];
+            $product->product_cost = number_format($validated['cost'], 2, '.', '');
+            $product->product_price = number_format($validated['price'], 2, '.', '');
+            $product->product_quantity = $validated['quantity'];
+            $product->product_category = $validated['category'];
+            $product->product_brand = $validated['brand'];
+            
+            $product->save();
+            
+            return redirect()
+                ->route('product')
+                ->with('success', 'Product added successfully');
+                
+        } catch (QueryException $e) {
+            Log::error('Database error while storing product:', [
+                'error' => $e->getMessage(),
+                'data' => $validated
+            ]);
+            
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Database error occurred while saving the product. Please try again.');
+                
+        } catch (Exception $e) {
+            Log::error('Unexpected error while storing product:', [
+                'error' => $e->getMessage(),
+                'data' => $validated ?? $request->all()
+            ]);
+            
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'An unexpected error occurred. Please try again.');
         }
-
-        $product = new Product();
-        Product::orderby('id')->get();
-        $product->product_id = $request->product_id;
-        $product->product_name = $request->name;
-        $cost = $request->cost;
-        $cost = number_format($cost, 2, '.', '');
-        $product->product_cost = $cost;
-        $product->product_price = $request->price;
-        $price = $request->price;
-        $price = number_format($price, 2, '.', '');
-        $product->product_price = $price;
-        $product->product_quantity = $request->quantity;
-        $product->product_category = $request->category;
-        $product->product_brand = $request->brand;
-        $product->save();
-        return redirect()->route('product')->with('success', 'Product added successfully');
     }
 
     /**
@@ -99,23 +98,49 @@ class ProductController extends Controller
     /**
      * Update the specified product in databse.
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
-        $product = Product::find($request->id);
-        $product->product_id = $request->product_id;
-        $product->product_name = $request->name;
-        $cost = $request->cost;
-        $cost = number_format($cost, 2, '.', '');
-        $product->product_cost = $cost;
-        $product->product_price = $request->price;
-        $price = $request->price;
-        $price = number_format($price, 2, '.', '');
-        $product->product_price = $price;
-        $product->product_quantity = $request->quantity;
-        $product->product_category = $request->category;
-        $product->product_brand = $request->brand;
-        $product->save();
-        return redirect()->route('product')->with('success', 'Product updated successfully');
+        try {
+            $validated = $request->validated();
+            
+            $product->update([
+                'product_id' => $validated['product_id'],
+                'product_name' => $validated['name'],
+                'product_cost' => number_format($validated['cost'], 2, '.', ''),
+                'product_price' => number_format($validated['price'], 2, '.', ''),
+                'product_quantity' => $validated['quantity'],
+                'product_category' => $validated['category'],
+                'product_brand' => $validated['brand']
+            ]);
+            
+            return redirect()
+                ->route('product')
+                ->with('success', 'Product updated successfully');
+                
+        } catch (QueryException $e) {
+            Log::error('Database error while updating product:', [
+                'error' => $e->getMessage(),
+                'data' => $validated,
+                'product_id' => $product->id
+            ]);
+            
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Database error occurred while updating the product. Please try again.');
+                
+        } catch (Exception $e) {
+            Log::error('Unexpected error while updating product:', [
+                'error' => $e->getMessage(),
+                'data' => $validated ?? $request->all(),
+                'product_id' => $product->id
+            ]);
+            
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'An unexpected error occurred. Please try again.');
+        }
     }
 
     /**
