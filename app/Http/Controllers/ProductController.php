@@ -163,7 +163,7 @@ class ProductController extends Controller
             DB::commit();
             
             return redirect()
-                ->route('product.index')  
+                ->route('product')  
                 ->with('success', 'Product updated successfully');
                 
         } catch (QueryException $e) {
