@@ -56,7 +56,7 @@
                                         </button>
                                     </form>
                                     {{-- Delete User --}}
-                                    <form action="{{ route('deleteUser') }}" method="post" class="flex">
+                                    <form action="{{ route('deleteUser') }}" method="post" class="flex" onsubmit="return confirmDelete();">
                                         @csrf
                                         @method('delete')
                                         <input type="hidden" name="id" value="{{ $user->id }}">
@@ -76,5 +76,11 @@
             </div>
         </div>
     </div>
+
+    <script>
+    function confirmDelete() { //function to show a confirmation dialog
+        return confirm("Are you sure you want to delete this user?");
+    }
+</script>
 
 </x-app-layout>
