@@ -8,7 +8,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <form action="{{ route('storeAnnouncement') }}" method="POST">
+                    <form action="{{ route('storeAnnouncement') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-4">
                             <label for="title" class="block text-gray-700 text-sm font-bold mb-2">Title:</label>
@@ -23,6 +23,14 @@
                             <textarea name="desc" id="desc" class="form-textarea rounded-md shadow-sm mt-1 block w-full"
                                       rows="4" required>{{ old('desc') }}</textarea>
                             @error('desc')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div class="mb-4">
+                            <label for="announcement_image" class="block text-gray-700 text-sm font-bold mb-2">Image:</label>
+                            <input type="file" name="announcement_image" id="announcement_image" class="form-input rounded-md shadow-sm mt-1 block w-full"
+                                   accept="image/*"/>
+                            @error('announcement_image')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
                         </div>

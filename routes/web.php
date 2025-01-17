@@ -95,6 +95,7 @@ Route::middleware('role:admin')->group(function () {
     Route::post('/announcements/update/{id}', [AnnouncementController::class, 'update'])->name('updateAnnouncement');
     Route::post('/announcements/delete/{id}', [AnnouncementController::class, 'destroy'])->name('deleteAnnouncement');
 
+
     // User Module
     Route::get('/users', [UserController::class, 'index'])->name('user');
     Route::get('/users/add', [UserController::class, 'create'])->name('addUser');
@@ -106,3 +107,4 @@ Route::middleware('role:admin')->group(function () {
 
 // All user can access this route
 Route::get('/announcementList', [AnnouncementController::class, 'announcementList'])->name('announcementList');
+Route::get('/announcement/{id}', [AnnouncementController::class, 'show'])->name('showAnnouncement');

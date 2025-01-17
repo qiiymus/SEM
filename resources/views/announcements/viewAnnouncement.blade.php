@@ -18,6 +18,7 @@
                         <th class="py-2">ID</th>
                         <th class="py-2">TITLE</th>
                         <th class="py-2">DESCRIPTION</th>
+                        <th class="py-2">IMAGE</th> <!-- New Column -->
                         <th class="py-2">ACTION</th>
                     </tr>
                 </thead>
@@ -26,7 +27,18 @@
                         <tr class="bg-gray-200 border-y-8 border-white">
                             <td class="py-2 px-4">{{ $announcement->id }}</td>
                             <td class="py-2 px-4 text-center">{{ $announcement->title }}</td>
-                            <td class="py-2 px-4 text-center">{{ $announcement->description }}</td>
+                            <td class="py-2 px-4 text-center">
+                                {{ Str::limit($announcement->description, 50, '...') }}
+                            </td>
+                            <td class="py-2 px-4 text-center">
+                                @if ($announcement->announcement_image)
+                                    <img src="{{ asset('storage/' . $announcement->announcement_image) }}" 
+                                         alt="Announcement Image" 
+                                         class="w-16 h-16 object-cover rounded-md mx-auto">
+                                @else
+                                    <span class="text-gray-500 italic">No Image</span>
+                                @endif
+                            </td>
                             <td class="flex justify-center">
                                 <a href="{{ route('editAnnouncement', $announcement->id) }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-emerald-400 m-2"

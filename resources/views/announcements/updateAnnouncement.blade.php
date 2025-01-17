@@ -8,7 +8,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <form action="{{ route('updateAnnouncement', $announcement->id) }}" method="POST">                       
+                    <form action="{{ route('updateAnnouncement', $announcement->id) }}" method="POST" enctype="multipart/form-data">                       
                         @csrf
                         <div class="mb-4">
                             <label for="title" class="block text-gray-700 text-sm font-bold mb-2">Title:</label>
@@ -21,9 +21,24 @@
                         <div class="mb-4">
                             <label for="desc" class="block text-gray-700 text-sm font-bold mb-2">Description:</label>
                             <textarea name="desc" id="desc" class="form-textarea rounded-md shadow-sm mt-1 block w-full"
-                                rows="4" required>{{ $announcement->description }}
-                            </textarea>
+                                rows="4" required>{{ $announcement->description }}</textarea>
                             @error('desc')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div class="mb-4">
+                            <label for="announcement_image" class="block text-gray-700 text-sm font-bold mb-2">Image:</label>
+                            @if ($announcement->announcement_image)
+                                <div class="mb-2">
+                                    <img src="{{ asset('storage/' . $announcement->announcement_image) }}" 
+                                         alt="Current Image" 
+                                         class="w-32 h-32 object-cover rounded-md">
+                                    <p class="text-sm text-gray-500 italic">Current Image</p>
+                                </div>
+                            @endif
+                            <input type="file" name="announcement_image" id="announcement_image" 
+                                   class="form-input rounded-md shadow-sm mt-1 block w-full" accept="image/*" />
+                            @error('announcement_image')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
                         </div>
@@ -34,6 +49,7 @@
                                     function resetForm() {
                                         document.getElementById("title").value = "";
                                         document.getElementById("desc").value = "";
+                                        document.getElementById("announcement_image").value = null;
                                     }
                                 </script>                                
                             </div>
