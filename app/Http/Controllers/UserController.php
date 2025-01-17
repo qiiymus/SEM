@@ -147,4 +147,13 @@ class UserController extends Controller
             return redirect()->back()->with('error', 'Failed to delete user');
         }
     }
+
+    public function search(Request $request) {
+        $search = $request->input('search');
+        $users = User::where('name', 'LIKE', "%$search%")
+                    ->orWhere('matric_id', 'LIKE', "%$search%")
+                    ->get();
+    
+        return view('user.viewUser', compact('users'));
+    }    
 }
