@@ -5,6 +5,8 @@
             User List
         </div>
         <div class="flex justify-end w-full mb-5 relative right-0">
+            @include('components.searchbar')
+
             <a href="{{ route('addUser') }}"
                 class="p-2 mx-2 border border-transparent rounded-xl hover:text-gray-600"
                 style="background-color: #00AEA6;">
