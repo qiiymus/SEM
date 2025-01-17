@@ -103,6 +103,7 @@ Route::middleware('role:admin')->group(function () {
     Route::get('/users/edit', [UserController::class, 'edit'])->name('editUser');
     Route::post('/users/update', [UserController::class, 'update'])->name('updateUser');
     Route::delete('/users/delete', [UserController::class, 'destroy'])->name('deleteUser');
+    Route::get('/users/search', [UserController::class, 'search'])->name('searchUser');
 });
 
 // All user can access this route
