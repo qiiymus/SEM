@@ -18,6 +18,7 @@ class Product extends Model
         'product_quantity',
         'product_category',
         'product_brand',
+        'product_image',
     ];
 
     public function carts()

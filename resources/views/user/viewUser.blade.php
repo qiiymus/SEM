@@ -5,6 +5,10 @@
             User List
         </div>
         <div class="flex justify-end w-full mb-5 relative right-0">
+            <form action="{{ route('searchUser') }}" method="GET" class="relative">
+                @include('components.searchbar')
+            </form>
+
             <a href="{{ route('addUser') }}"
                 class="p-2 mx-2 border border-transparent rounded-xl hover:text-gray-600"
                 style="background-color: #00AEA6;">
@@ -56,7 +60,7 @@
                                         </button>
                                     </form>
                                     {{-- Delete User --}}
-                                    <form action="{{ route('deleteUser') }}" method="post" class="flex">
+                                    <form action="{{ route('deleteUser') }}" method="post" class="flex" onsubmit="return confirmDelete();">
                                         @csrf
                                         @method('delete')
                                         <input type="hidden" name="id" value="{{ $user->id }}">
@@ -76,5 +80,11 @@
             </div>
         </div>
     </div>
+
+    <script>
+    function confirmDelete() { //function to show a confirmation dialog
+        return confirm("Are you sure you want to delete this user?");
+    }
+</script>
 
 </x-app-layout>

@@ -37,6 +37,10 @@ class PaymentController extends Controller
 
         // dd($carts);
 
+            // Save the total price in the session
+            session(['total_price' => $totalPrice]);
+
+
         return view('payment.cart', compact('carts', 'totalPrice'));
     }
 
@@ -55,7 +59,8 @@ class PaymentController extends Controller
             $cart->total = $cart->product->product_price * $cart->quantity;
         });
 
-        $totalPrice = $carts->sum('total');
+        // Use the session total_price if it exists
+        $totalPrice = session('total_price', $carts->sum('total'));
 
         // dd($carts, $totalPrice);
 
@@ -150,35 +155,40 @@ class PaymentController extends Controller
      */
     public function storePayment(Request $request)
     {
-        // check whether amount is enough or not
-        if ($request->cash_amount < $request->total_price) {
+        $totalPrice = round(session('total_price', $request->total_price), 2);
+        $cashAmount = round($request->cash_amount, 2);
+    
+        // Check if the cash amount is sufficient
+        if ($cashAmount < $totalPrice) {
             return redirect()->back()->with('error', 'Amount Paid is not enough!');
         }
-
+    
+        // Proceed with the rest of the logic
         $payment = new Payment();
-        $payment->total_price = $request->total_price;
+        $payment->total_price = $totalPrice;
         $payment->payment_method = $request->payment_method;
-        $payment->cash_amount = $request->cash_amount;
+        $payment->cash_amount = $cashAmount;
         $payment->save();
-
+    
         $carts = Cart::where('user_id', '=', auth()->user()->id)
             ->where('payment_id', '=', null)
             ->get();
-        
-        // Update product quantity in product table
+    
+        // Update product quantity in the product table
         $carts->each(function ($cart) {
             $product = Product::find($cart->product_id);
             $product->product_quantity -= $cart->quantity;
             $product->save();
         });
-
+    
         $carts->each(function ($cart) use ($payment) {
             $cart->payment_id = $payment->id;
             $cart->save();
         });
-
+    
         return redirect()->route('payment.change', $payment->id)->with('success', 'Payment success!');
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -264,4 +274,39 @@ class PaymentController extends Controller
 
         return redirect()->route('cart')->with('success', 'All product deleted from cart successfully!');
     }
+
+
+
+
+    public function applyVoucher(Request $request)
+    {
+        // Get the voucher code from the request
+        $voucherCode = $request->input('voucher_code');
+        
+        // Define list of valid vouchers and their discounts
+        $validVouchers = [
+            'DISCOUNT10' => 0.10, // 10% discount
+            'DISCOUNT20' => 0.20, // 20% discount
+            
+        ];
+
+        // Check if the voucher is valid
+        if (array_key_exists($voucherCode, $validVouchers)) {
+            // Get the current total price (you can get this from the session or database)
+            $totalPrice = session('total_price', 0);
+            
+            // Calculate the new price after applying the discount
+            $discount = $validVouchers[$voucherCode];
+            $newPrice = $totalPrice - ($totalPrice * $discount);
+
+            // Update the total price in the session
+            session(['total_price' => $newPrice]);
+
+            return redirect()->route('payment.pay')->with('success', 'Voucher applied successfully!');
+        } else {
+            return redirect()->route('payment.pay')->with('error', 'Invalid voucher code.');
+        }
+    }
+    
+
 }
